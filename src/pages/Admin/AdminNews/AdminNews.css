@@ -1,0 +1,227 @@
+/* =========================
+   Admin News Page
+========================= */
+.admin-news-page-wrapper {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.admin-news-page {
+  width: 100%;
+  max-width: 1000px;
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.15);
+  font-family: Arial, sans-serif;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 8px 16px;
+  background-color: #2a6724;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.back-btn:hover { background-color: #1e4b1a; }
+
+h1 { font-size: 2rem; color: #333; margin-bottom: 25px; text-align: center; }
+
+/* Form */
+.news-form {
+  max-width: 600px;
+  margin: 0 auto 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group small {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.news-form input,
+.news-form textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.news-form textarea { min-height: 120px; }
+
+.news-form button {
+  padding: 12px;
+  border-radius: 8px;
+  background: #2b65a9;
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.news-form button:hover { opacity: 0.9; }
+
+/* =========================
+   IMAGE PREVIEW
+========================= */
+.image-preview {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.image-preview.existing-images {
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.image-thumb {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.image-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-thumb button {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background-color: rgba(255,0,0,0.8);
+  border: none;
+  color: #fff;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.image-thumb button:hover { background-color: rgba(255,0,0,1); }
+
+/* =========================
+   NEWS LIST
+========================= */
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.news-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.news-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.news-card-content {
+  flex: 1 1 70%;
+  min-width: 180px;
+}
+
+.news-card-content h3 { font-size: 1.2rem; margin-bottom: 5px; }
+.news-card-content p { 
+  font-size: 0.9rem; 
+  color: #555; 
+  margin-bottom: 5px; 
+  max-width: 100%; 
+  word-break: break-word; 
+}
+.news-card-content span { font-size: 0.8rem; color: #999; }
+
+.news-card-actions {
+  display: flex;
+  gap: 5px;
+  flex: 0 0 auto;
+}
+
+.news-card-actions button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.news-card-actions button:first-child { background-color: #3f6ca0; }
+.news-card-actions button:last-child { background-color: #ce2323; }
+.news-card-actions button:hover { opacity: 0.85; }
+
+.news-card-images {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.news-card-images img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  .news-card-top { flex-direction: column; gap: 10px; }
+  .news-card-content { flex: 1 1 100%; }
+  .news-card-images img { width: 50px; height: 50px; }
+}
+
+@media (max-width: 480px) {
+  .image-preview {
+    overflow-x: auto;
+    gap: 6px;
+  }
+  .image-thumb {
+    width: 70px;
+    height: 70px;
+  }
+  .news-card-images img { width: 45px; height: 45px; }
+}

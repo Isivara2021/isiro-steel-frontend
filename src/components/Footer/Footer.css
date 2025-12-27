@@ -1,0 +1,128 @@
+/* Footer Styles */
+.footer {
+  background: linear-gradient(135deg, #556b2f, #6b8e23);
+  color: #f0f0f0;
+  padding: 40px 16px 20px;
+  font-family: "Space Grotesk", sans-serif;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+.footer-item h3,
+.footer-item h4 {
+  font-weight: 700;
+  color: #f0f0f0;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.footer-item h3::after,
+.footer-item h4::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 50px;
+  height: 2px;
+  background: #d4d4d4;
+  border-radius: 2px;
+}
+
+.footer-item p {
+  color: #d1d5db;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.footer-item ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-item ul li {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #d1d5db;
+  transition: color 0.3s ease;
+}
+
+.footer-item ul li a {
+  color: #d1d5db;
+  text-decoration: none;
+  position: relative;
+}
+
+.footer-item ul li a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -2px;
+  background-color: #f0f0f0;
+  transition: width 0.3s ease;
+}
+
+.footer-item ul li a:hover::after {
+  width: 100%;
+}
+
+.footer-item ul li a:hover {
+  color: #fff;
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  margin-right: 12px;
+  color: #fff;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 50px;
+  padding-top: 20px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #d1d5db;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.footer-bottom:hover {
+  color: #fff;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

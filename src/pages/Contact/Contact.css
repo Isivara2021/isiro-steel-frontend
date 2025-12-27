@@ -1,0 +1,183 @@
+.contact-page {
+  font-family: "Space Grotesk", sans-serif;
+  color: #102216;
+}
+
+/* Main container */
+.contact-main {
+  padding: 40px 20px;
+  min-height: 80vh;
+}
+
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 50px;
+}
+
+@media (min-width: 992px) {
+  .contact-container {
+    flex-direction: row;
+    gap: 60px;
+  }
+}
+
+/* Contact Info */
+.contact-info {
+  flex: 1;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.contact-info h1 {
+  font-size: 3rem;
+  color: #0b381a;
+  margin-bottom: 20px;
+}
+
+.contact-info p {
+  margin-bottom: 20px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.contact-details p {
+  margin-bottom: 10px;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+.contact-details .icon {
+  margin-right: 8px;
+  color: #4d810a;
+}
+
+/* Social Links */
+.social-links {
+  margin: 20px 0;
+}
+
+.social-links a {
+  font-size: 1.5rem;
+  color: silver;
+  margin-right: 15px;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #1189d4;
+}
+
+/* Map */
+.map-container {
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* Contact Form */
+.contact-form {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  color: #102216;
+}
+
+.contact-form .form-topic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #0b381a;
+  margin-bottom: 35px;
+}
+
+/* WhatsApp icon */
+.contact-form .form-topic .whatsapp-icon {
+  font-size: 1.8rem;
+  color: #25d366; /* WhatsApp green */
+}
+
+/* Highlight WhatsApp text */
+.contact-form .form-topic span {
+  color: #25d366;
+  font-weight: 700;
+}
+
+
+.contact-form input,
+.contact-form textarea {
+  font-family: "Space Grotesk", sans-serif; /* force consistent font */
+  font-size: 1rem;
+  padding: 16px 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fcfcfc;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.contact-form textarea {
+  height: 200px; /* bigger message box */
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #11d452;
+  box-shadow: 0 0 0 3px rgba(17,212,82,0.2);
+}
+
+.contact-form button {
+  align-self: flex-end; /* bottom-right */
+  padding: 14px 24px;
+  background-color: #0fb043;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
+}
+
+.contact-form button:hover {
+  background-color: #287542;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .contact-container { flex-direction: column; gap: 40px; }
+  .contact-form { padding: 30px; }
+  .map-container iframe { height: 180px; }
+}

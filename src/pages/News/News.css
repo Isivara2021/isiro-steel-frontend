@@ -1,0 +1,246 @@
+/* =========================
+   NEWS PAGE
+========================= */
+.news-page {
+  min-height: 80vh;
+  padding: 64px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.news-title {
+  font-size: 2.6rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 48px;
+  color: #2c3e2e;
+}
+
+/* =========================
+   NEWS GRID
+========================= */
+.news-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 28px;
+}
+
+/* =========================
+   NEWS CARD
+========================= */
+.news-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  background: linear-gradient(160deg, #ffffff, #f3f6f4);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 26px 48px rgba(0, 0, 0, 0.16);
+}
+
+.news-images-preview {
+  display: flex;
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+}
+
+.news-images-preview img {
+  width: calc(100% / 3);
+  object-fit: cover;
+  border-right: 1px solid #f3f6f4;
+  transition: transform 0.3s ease;
+}
+
+.news-images-preview img:last-child {
+  border-right: none;
+}
+
+.news-card:hover .news-images-preview img {
+  transform: scale(1.05);
+}
+
+/* =========================
+   CONTENT
+========================= */
+.news-content {
+  padding: 16px;
+}
+
+.news-content h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c3e2e;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.news-content p {
+  font-size: 0.85rem;
+  color: #6b7280;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+.news-date {
+  display: block;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-top: 8px;
+}
+
+/* =========================
+   LIGHTBOX
+========================= */
+.news-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.news-lightbox-content {
+  background: #fff;
+  border-radius: 24px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* LIGHTBOX IMAGE */
+.lightbox-images {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-images img {
+  max-width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.prev-image,
+.next-image {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  border: none;
+  font-size: 2rem;
+  width: 40px;
+  height: 60px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.prev-image {
+  left: 8px;
+}
+
+.next-image {
+  right: 8px;
+}
+
+/* LIGHTBOX TEXT */
+.lightbox-text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lightbox-text h1 {
+  font-size: 2rem;
+  color: #2c3e2e;
+  font-weight: 700;
+}
+
+.lightbox-text p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.7;
+}
+
+/* THUMBNAILS */
+.lightbox-thumbnails {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  overflow-x: auto;
+}
+
+.lightbox-thumbnails img {
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.3s ease;
+}
+
+.lightbox-thumbnails img.active-thumb {
+  border: 2px solid #11d452;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px) {
+  .news-card {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .news-images-preview {
+    flex-direction: row;
+    height: 120px;
+  }
+
+  .news-lightbox-content {
+    padding: 20px;
+  }
+
+  .lightbox-text h1 {
+    font-size: 1.5rem;
+  }
+
+  .lightbox-images img {
+    max-height: 250px;
+  }
+}

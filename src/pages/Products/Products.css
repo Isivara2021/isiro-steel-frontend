@@ -1,0 +1,137 @@
+.products-page {
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: "Space Grotesk", sans-serif;
+  color: #2c3e2e;
+}
+
+.page-heading {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.page-heading h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #2c3e2e;
+}
+
+.page-heading p {
+  font-size: 1.125rem;
+  color: #6b7280;
+  margin-top: 8px;
+}
+
+/* Category Chips */
+.category-chips {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 12px 0;
+  justify-content: center;
+}
+
+.chip,
+.active-chip {
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.chip {
+  background-color: #f0f0f0;
+  color: #111;
+}
+
+.chip:hover {
+  background-color: #d4d4d4;
+}
+
+.active-chip {
+  background: linear-gradient(135deg, #91ce80, #6b8e23);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(17,212,82,0.4);
+}
+
+/* Products Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.product-card-wrapper {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card-wrapper:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  background-color: #f0f0f0;
+  color: #111;
+  transition: all 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #d4d4d4;
+}
+
+.pagination .active-page {
+  background: linear-gradient(135deg, #5b9157, #6b8e23);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(17,212,82,0.4);
+}
+
+/* Scrollbar for category chips (optional) */
+.category-chips::-webkit-scrollbar {
+  height: 6px;
+}
+
+.category-chips::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.category-chips::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-heading h1 {
+    font-size: 2.2rem;
+  }
+
+  .page-heading p {
+    font-size: 1rem;
+  }
+
+  .products-grid {
+    gap: 16px;
+  }
+}
