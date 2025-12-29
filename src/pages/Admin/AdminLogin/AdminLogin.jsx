@@ -10,6 +10,9 @@ const AdminLogin = () => {
   const { loginAdmin } = useContext(AdminContext);
   const navigate = useNavigate();
 
+  // Use environment variable for backend URL
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -19,7 +22,7 @@ const AdminLogin = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/admin/login", {
+      const res = await fetch(`${API_URL}/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
