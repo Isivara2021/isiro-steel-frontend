@@ -6,7 +6,7 @@ const API_URL = process.env.REACT_APP_API_URL; // should include https://backend
 // Get all products (public)
 export const getProducts = async () => {
   try {
-    const res = await fetch(`${API_URL}/api/products`);
+    const res = await fetch(`${API_URL}/products`);
     if (!res.ok) throw new Error("Failed to fetch products");
     return await res.json();
   } catch (err) {
@@ -18,7 +18,7 @@ export const getProducts = async () => {
 // Get single product by ID (public)
 export const getProductById = async (id) => {
   try {
-    const res = await fetch(`${API_URL}/api/products/${id}`);
+    const res = await fetch(`${API_URL}/products/${id}`);
     if (!res.ok) throw new Error("Failed to fetch product");
     return await res.json();
   } catch (err) {
@@ -30,7 +30,7 @@ export const getProductById = async (id) => {
 // Create a new product (admin only)
 export const createProduct = async (formData, token) => {
   try {
-    const res = await fetch(`${API_URL}/api/products`, {
+    const res = await fetch(`${API_URL}/products`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -49,7 +49,7 @@ export const createProduct = async (formData, token) => {
 // Update a product by ID (admin only)
 export const updateProduct = async (id, formData, token) => {
   try {
-    const res = await fetch(`${API_URL}/api/products/${id}`, {
+    const res = await fetch(`${API_URL}/products/${id}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ export const updateProduct = async (id, formData, token) => {
 // Delete a product by ID (admin only)
 export const deleteProduct = async (id, token) => {
   try {
-    const res = await fetch(`${API_URL}/api/products/${id}`, {
+    const res = await fetch(`${API_URL}/products/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ export const deleteProduct = async (id, token) => {
 export const removeProductImage = async (productId, imageIndex, token) => {
   try {
     const res = await fetch(
-      `${API_URL}/api/products/${productId}/images/${imageIndex}`,
+      `${API_URL}/products/${productId}/images/${imageIndex}`,
       {
         method: "DELETE",
         headers: {

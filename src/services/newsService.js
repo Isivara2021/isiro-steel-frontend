@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Base URL of backend + news route
-const API_URL = `${process.env.REACT_APP_API_URL}/api/news`;
+const API_URL = `${process.env.REACT_APP_API_URL}/news`;
 
 /**
  * Fetch all news

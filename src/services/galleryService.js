@@ -9,7 +9,7 @@ const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
  */
 export const getGallery = async () => {
   try {
-    const res = await fetch(`${API_URL}/api/gallery`);
+    const res = await fetch(`${API_URL}/gallery`);
     if (!res.ok) throw new Error("Failed to fetch gallery");
     const data = await res.json();
     return data;
@@ -41,7 +41,7 @@ export const getGalleryByCategory = async (category) => {
  */
 export const addGalleryImage = async (formData, token) => {
   try {
-    const res = await fetch(`${API_URL}/api/gallery`, {
+    const res = await fetch(`${API_URL}/gallery`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -64,7 +64,7 @@ export const addGalleryImage = async (formData, token) => {
  */
 export const deleteGalleryImage = async (id, token) => {
   try {
-    const res = await fetch(`${API_URL}/api/gallery/${id}`, {
+    const res = await fetch(`${API_URL}/gallery/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
