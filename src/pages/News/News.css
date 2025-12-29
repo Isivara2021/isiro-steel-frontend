@@ -225,22 +225,53 @@
   .news-card {
     flex-direction: column;
     height: auto;
+    gap: 12px; /* added spacing between content */
   }
 
   .news-images-preview {
     flex-direction: row;
     height: 120px;
+    overflow-x: auto; /* allow horizontal scroll if images overflow */
+    gap: 8px; /* spacing between images */
+  }
+
+  .news-images-preview img {
+    flex: 1 0 auto; /* responsive width for preview images */
+    height: 100%;
   }
 
   .news-lightbox-content {
     padding: 20px;
+    max-height: 85vh; /* reduce height slightly for smaller screens */
   }
 
   .lightbox-text h1 {
     font-size: 1.5rem;
   }
 
+  .lightbox-text p {
+    font-size: 0.9rem;
+  }
+
   .lightbox-images img {
     max-height: 250px;
+    width: auto;
+  }
+
+  .prev-image,
+  .next-image {
+    width: 35px;
+    height: 50px;
+    font-size: 1.6rem;
+  }
+
+  .lightbox-thumbnails {
+    gap: 6px;
+  }
+
+  .lightbox-thumbnails img {
+    width: 50px;
+    height: 35px;
   }
 }
+

@@ -181,3 +181,91 @@
   .contact-form { padding: 30px; }
   .map-container iframe { height: 180px; }
 }
+
+
+/* =========================
+   Mobile App Style - Contact Page
+========================= */
+@media (max-width: 768px) {
+  .contact-main {
+    padding: 20px 12px;
+    min-height: auto;
+  }
+
+  .contact-container {
+    gap: 30px;
+  }
+
+  /* Contact Info */
+  .contact-info h1 {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .contact-info p,
+  .contact-details p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .contact-details .icon {
+    font-size: 1.1rem;
+    margin-right: 6px;
+  }
+
+  /* Social Links */
+  .social-links a {
+    font-size: 1.8rem;
+    margin-right: 12px;
+  }
+
+  /* Map */
+  .map-container {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  }
+  .map-container iframe {
+    width: 100%;
+    height: 200px;
+  }
+
+  /* Contact Form */
+  .contact-form {
+    padding: 24px 16px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    backdrop-filter: blur(8px);
+  }
+
+  .contact-form .form-topic {
+    font-size: 1.4rem;
+    gap: 6px;
+  }
+
+  .contact-form .form-topic .whatsapp-icon {
+    font-size: 1.6rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 1rem;
+    padding: 14px 14px;
+    border-radius: 12px;
+  }
+
+  .contact-form textarea {
+    height: 160px;
+  }
+
+  .contact-form button {
+    width: 100%;
+    text-align: center;
+    padding: 14px;
+    font-size: 1rem;
+    border-radius: 12px;
+    margin-top: 20px;
+  }
+
+  /* Animations remain the same but feel more natural on mobile */
+}

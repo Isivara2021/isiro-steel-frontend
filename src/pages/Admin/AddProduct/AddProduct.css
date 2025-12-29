@@ -1,14 +1,17 @@
+/* =========================
+   ADD PRODUCT PAGE
+========================= */
 .add-product-page {
   padding: 40px 20px;
   background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
   min-height: 100vh;
   font-family: "Space Grotesk", sans-serif;
   display: flex;
-  flex-direction: column; 
-  align-items: center; 
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Back button */
+/* Back Button */
 .back-btn-container {
   width: 100%;
   display: flex;
@@ -18,61 +21,70 @@
 
 .back-btn {
   display: inline-block;
-  margin-bottom: 20px;
   padding: 8px 16px;
   background-color: #2a6724;
   color: #fff;
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  border-radius: 8px;
   font-size: 14px;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
 .back-btn:hover {
-  background-color: #333;
+  background-color: #11d452;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(17, 212, 82, 0.35);
 }
 
 /* Card Wrapper */
 .add-product-card {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   max-width: 700px;
   width: 100%;
-  padding: 0;
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
 }
 
 /* Form */
 .add-product-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 30px 35px;
+  gap: 22px;
+  padding: 35px 30px;
   box-sizing: border-box;
 }
 
 /* Header with Icon */
 .add-product-header {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 28px;
 }
 
 .add-product-header .header-icon {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   color: #11d452;
   margin-bottom: 10px;
 }
 
 .add-product-header h1 {
-  font-size: 2rem;
+  font-size: 2.1rem;
   margin-bottom: 6px;
   color: #0b381a;
 }
 
 .add-product-header p {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #555;
 }
 
@@ -87,15 +99,16 @@
   font-family: inherit;
   width: 100%;
   box-sizing: border-box;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .add-product-form input:focus,
 .add-product-form textarea:focus,
 .add-product-form select:focus {
   border-color: #11d452;
-  box-shadow: 0 0 0 3px rgba(17, 212, 82, 0.2);
+  box-shadow: 0 0 0 4px rgba(17, 212, 82, 0.2);
   outline: none;
+  transform: scale(1.02);
 }
 
 .input-with-counter {
@@ -107,11 +120,12 @@
   text-align: right;
   margin-top: 4px;
   display: block;
+  color: #777;
 }
 
 /* Textarea Height */
 .add-product-form textarea {
-  min-height: 120px;
+  min-height: 140px;
   resize: vertical;
 }
 
@@ -127,35 +141,55 @@
 
 /* File Input */
 .add-product-form input[type="file"] {
-  padding: 6px 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  background-color: #fafafa;
+  border-radius: 10px;
 }
 
 /* Submit Button */
 .add-product-form button {
-  padding: 14px 24px;
-  background: #11d452;
-  color: #102216;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #43cea2, #185a9d);
+  color: #fff;
   font-weight: bold;
   font-size: 1rem;
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   align-self: center;
-  width: fit-content;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .add-product-form button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(17, 212, 82, 0.35);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(17, 212, 82, 0.35);
 }
 
 /* Responsive */
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   .form-row {
     flex-direction: column;
+  }
+
+  .add-product-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .add-product-header p {
+    font-size: 0.9rem;
+  }
+
+  .add-product-form button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .back-btn {
+    padding: 8px 14px;
+    font-size: 13px;
   }
 }

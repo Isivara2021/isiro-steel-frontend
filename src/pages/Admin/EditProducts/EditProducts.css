@@ -287,12 +287,87 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 
-  .edit-product-page {
-    padding: 20px;
-  }
-
   .image-wrapper {
     width: 70px;
     height: 70px;
+  }
+}
+
+/* ===============================
+   EDIT PRODUCT PAGE - MOBILE ENHANCEMENTS
+================================ */
+@media (max-width: 480px) {
+  .edit-product-page-wrapper {
+    padding: 20px 10px;
+    align-items: flex-start;
+  }
+
+  .edit-product-page {
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .back-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .products-list {
+    gap: 16px;
+    grid-template-columns: 1fr;
+  }
+
+  .product-card {
+    min-height: auto;
+    padding: 12px;
+  }
+
+  .product-card img {
+    height: 150px;
+    margin-bottom: 10px;
+  }
+
+  .product-info h4 {
+    font-size: 15px;
+  }
+
+  .product-info p {
+    font-size: 13px;
+  }
+
+  .product-buttons button {
+    font-size: 13px;
+    padding: 8px 0;
+  }
+
+  .edit-product-form {
+    padding: 20px;
+  }
+
+  .edit-product-form h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .edit-product-form input,
+  .edit-product-form textarea,
+  .edit-product-form select {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .image-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-buttons button {
+    font-size: 13px;
+    padding: 10px 0;
   }
 }

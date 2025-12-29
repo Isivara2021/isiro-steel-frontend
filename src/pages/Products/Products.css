@@ -135,3 +135,59 @@
     gap: 16px;
   }
 }
+
+/* =========================
+   MOBILE ENHANCEMENTS
+========================= */
+@media (max-width: 768px) {
+  .page-heading h1 {
+    font-size: 2.2rem;
+  }
+
+  .page-heading p {
+    font-size: 1rem;
+  }
+
+  /* Make category chips easier to scroll */
+  .category-chips {
+    gap: 8px;
+    padding: 10px 0;
+    justify-content: flex-start; /* align left for natural scroll */
+  }
+
+  .chip,
+  .active-chip {
+    padding: 6px 16px;
+    font-size: 0.85rem;
+  }
+
+  /* Products grid adjustments */
+  .products-grid {
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  .product-card-wrapper:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  }
+
+  /* Pagination adjustments */
+  .pagination {
+    gap: 6px;
+    margin-top: 24px;
+  }
+
+  .pagination button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  .category-chips::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  .category-chips::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.25);
+  }
+}

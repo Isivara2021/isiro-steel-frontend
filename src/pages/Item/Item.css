@@ -190,3 +190,112 @@
   transform: translateY(-2px);
   box-shadow: 0 12px 25px rgba(37, 211, 102, 0.35);
 }
+
+/* =========================
+   MOBILE APP DESIGN - ITEM PAGE
+========================= */
+@media (max-width: 900px) {
+  .item-page {
+    padding: 20px 12px 60px;
+  }
+
+  /* Breadcrumb stacking */
+  .breadcrumb {
+    font-size: 0.85rem;
+    gap: 4px;
+  }
+
+  .item-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  /* Gallery adjustments */
+  .main-image-box img {
+    height: 250px;
+  }
+
+  .thumbnail-row {
+    gap: 8px;
+    overflow-x: auto;
+  }
+
+  .thumbnail-row img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Details column */
+  .details h1 {
+    font-size: 2rem;
+  }
+
+  .price {
+    font-size: 1.2rem;
+  }
+
+  .description {
+    height: 200px;
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .description:hover {
+    height: 220px;
+  }
+
+  .specs h3 {
+    font-size: 1rem;
+  }
+
+  .specs li {
+    font-size: 0.85rem;
+    padding: 8px 0;
+  }
+
+  /* WhatsApp button */
+  .whatsapp-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 0;
+    font-size: 0.95rem;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .main-image-box img {
+    height: 180px;
+  }
+
+  .thumbnail-row img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .details h1 {
+    font-size: 1.6rem;
+  }
+
+  .price {
+    font-size: 1rem;
+  }
+
+  .description {
+    font-size: 0.85rem;
+    height: 180px;
+  }
+
+  .specs h3 {
+    font-size: 0.9rem;
+  }
+
+  .specs li {
+    font-size: 0.8rem;
+  }
+
+  .whatsapp-btn {
+    font-size: 0.9rem;
+    padding: 12px 0;
+  }
+}

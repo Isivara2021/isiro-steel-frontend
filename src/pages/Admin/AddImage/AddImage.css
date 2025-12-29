@@ -1,3 +1,6 @@
+/* =========================
+   ADD IMAGE PAGE
+========================= */
 .add-image-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
@@ -13,7 +16,6 @@
   align-self: flex-start;
   margin-bottom: 20px;
   padding: 10px 18px;
-  background: #ff7e5f;
   background: linear-gradient(135deg, #ff7e5f, #feb47b);
   color: #fff;
   border: none;
@@ -31,20 +33,22 @@
 
 /* Form Card */
 .add-image-form {
-  background: #ffffffcc;
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
   padding: 35px 30px;
   width: 380px;
+  max-width: 95%;
   border-radius: 16px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
   gap: 15px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .add-image-form:hover {
   transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
 /* Form Title */
@@ -58,7 +62,7 @@
 /* Inputs and Select */
 .add-image-form input,
 .add-image-form select {
-  width: 95%;
+  width: 100%;
   padding: 12px 14px;
   border-radius: 10px;
   border: 1px solid #ccc;
@@ -69,14 +73,16 @@
 .add-image-form input:focus,
 .add-image-form select:focus {
   border-color: #ff7e5f;
-  box-shadow: 0 0 0 3px rgba(255,126,95,0.2);
+  box-shadow: 0 0 0 4px rgba(255,126,95,0.2);
   outline: none;
 }
 
 /* File Input Styling */
 .add-image-form input[type="file"] {
-  padding: 6px 10px;
+  padding: 8px 10px;
   border-radius: 10px;
+  cursor: pointer;
+  background-color: #fafafa;
 }
 
 /* Submit Button */
@@ -94,13 +100,35 @@
 
 .add-image-form button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
-/* Responsive */
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
 @media (max-width: 450px) {
   .add-image-form {
     width: 100%;
     padding: 25px 20px;
+  }
+
+  .add-image-form h2 {
+    font-size: 1.5rem;
+  }
+
+  .back-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .add-image-form input,
+  .add-image-form select {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+  }
+
+  .add-image-form button {
+    padding: 12px 0;
+    font-size: 0.95rem;
   }
 }

@@ -214,14 +214,74 @@ h1 { font-size: 2rem; color: #333; margin-bottom: 25px; text-align: center; }
   .news-card-images img { width: 50px; height: 50px; }
 }
 
+/* =========================
+   MOBILE ENHANCEMENTS
+========================= */
 @media (max-width: 480px) {
-  .image-preview {
-    overflow-x: auto;
+  .admin-news-page {
+    padding: 20px 15px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+
+  .news-form {
+    max-width: 100%;
+    gap: 10px;
+  }
+
+  .news-form input,
+  .news-form textarea {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .news-form button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .image-preview,
+  .image-preview.existing-images {
     gap: 6px;
   }
+
   .image-thumb {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
   }
-  .news-card-images img { width: 45px; height: 45px; }
+
+  .image-thumb button {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+  }
+
+  .news-card {
+    padding: 12px;
+  }
+
+  .news-card-content h3 {
+    font-size: 1rem;
+  }
+
+  .news-card-content p {
+    font-size: 0.85rem;
+  }
+
+  .news-card-content span {
+    font-size: 0.75rem;
+  }
+
+  .news-card-actions button {
+    padding: 5px 8px;
+    font-size: 0.75rem;
+  }
+
+  .news-card-images img {
+    width: 40px;
+    height: 40px;
+  }
 }

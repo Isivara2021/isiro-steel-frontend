@@ -124,3 +124,41 @@
     padding: 30px 25px;
   }
 }
+
+/* =========================
+   MOBILE STYLES
+========================= */
+@media (max-width: 480px) {
+  .admin-login-card {
+    width: 90%;
+    padding: 25px 20px;
+  }
+
+  .admin-login-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .admin-login-header p {
+    font-size: 0.85rem;
+  }
+
+  .admin-login-form input {
+    padding: 12px 12px 12px 38px;
+    font-size: 0.95rem;
+  }
+
+  .input-icon {
+    font-size: 0.9rem;
+    left: 12px;
+  }
+
+  .login-btn {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  .admin-login-footer {
+    font-size: 0.75rem;
+  }
+}
+
