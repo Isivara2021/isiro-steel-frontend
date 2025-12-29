@@ -26,7 +26,7 @@ body::before {
 }
 
 /* ===========================
-   HERO SECTION
+   HERO SECTION (Desktop)
 =========================== */
 .hero-section {
   display: flex;
@@ -136,14 +136,12 @@ body::before {
   align-items: center;
 }
 
-/* ===========================
-   HERO IMAGE FRAME - TRUE 1:1
-=========================== */
+/* Hero image frame */
 .hero-image-frame {
   position: relative;
   width: 100%;
-  max-width: 500px;   /* fix the width */
-  aspect-ratio: 1 / 1; /* true 1:1 */
+  max-width: 500px;
+  aspect-ratio: 1 / 1;
   border: 2px solid #6b8e23;
   background: rgba(143, 188, 143, 0.18);
   backdrop-filter: blur(6px);
@@ -157,7 +155,7 @@ body::before {
   object-fit: cover;
   border-radius: 8px;
   opacity: 0;
-  transition: opacity 1.8s ease-in-out, transform 0.7s ease;
+  transition: opacity 1.2s ease-in-out, transform 0.7s ease;
   position: absolute;
   top: 0;
   left: 0;
@@ -170,7 +168,7 @@ body::before {
   transform: scale(1);
 }
 
-/* DOT INDICATORS */
+/* Dot indicators */
 .hero-dots {
   position: absolute;
   bottom: 14px;
@@ -297,29 +295,7 @@ body::before {
 }
 
 @media (max-width: 600px) {
-  .hero-section {
-    padding: 40px 20px;
-  }
-
-  .hero-stats {
-    gap: 20px;
-  }
-
-  .hero-left h1 {
-    font-size: 2rem;
-  }
-
-  .hero-left p {
-    font-size: 1rem;
-  }
-}
-
-
-/* =========================
-   MOBILE APP DESIGN - HOME PAGE
-========================= */
-@media (max-width: 600px) {
-  /* Hero section adjustments */
+  /* Hero section */
   .hero-section {
     flex-direction: column;
     align-items: center;
@@ -333,12 +309,12 @@ body::before {
   }
 
   .hero-left h1 {
-    font-size: 1.8rem;
+    font-size: 1.9rem;
     line-height: 1.3;
   }
 
   .hero-left p {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
   .hero-buttons {
@@ -368,9 +344,16 @@ body::before {
 
   /* Hero image adjustments */
   .hero-image-frame {
-    max-width: 300px;
+    max-width: 280px;
     aspect-ratio: 1 / 1;
     border-width: 1.5px;
+  }
+
+  .hero-image-frame img {
+    opacity: 1; /* always visible on mobile */
+    position: relative;
+    z-index: 2;
+    transform: scale(1);
   }
 
   /* Collections section adjustments */

@@ -1,4 +1,6 @@
-/* Navbar Styles */
+/* =========================
+   Navbar Styles (Desktop)
+========================= */
 .navbar {
   position: sticky;
   top: 0;
@@ -44,7 +46,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 .logo-image {
@@ -112,64 +113,79 @@
   transform: scale(1.1);
 }
 
+/* =========================
+   Mobile Navbar Styles
+========================= */
 @media (max-width: 768px) {
+  /* Hide desktop links */
   .nav-links {
     display: none;
   }
+
   .mobile-menu-btn {
     display: block;
   }
-}
 
-/* =========================
-   Mobile Menu Overlay
-========================= */
-@media (max-width: 768px) {
-  /* Overlay container */
+  /* Mobile overlay */
   .mobile-menu-overlay {
     position: fixed;
     inset: 0;
-    background: #556b2f; /* dark green background */
+    background: rgba(85, 107, 47, 0.95); /* dark green semi-transparent */
     color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 32px;
-    z-index: 100;
+    z-index: 200;
     opacity: 0;
     pointer-events: none;
     transform: translateY(-100%);
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    backdrop-filter: blur(6px); /* modern glass effect */
   }
 
-  /* When active */
+  /* Overlay active */
   .mobile-menu-overlay.active {
     opacity: 1;
     pointer-events: all;
     transform: translateY(0);
   }
 
-  /* Mobile links styling */
+  /* Mobile links */
   .mobile-menu-overlay a {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 600;
     text-decoration: none;
     color: #fff;
-    transition: color 0.3s ease;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    transition: all 0.3s ease;
   }
 
   .mobile-menu-overlay a:hover {
     color: #dcdcdc;
+    transform: scale(1.05);
   }
 
-  /* Hide desktop links */
-  .nav-links {
-    display: none;
+  /* Logo section on mobile */
+  .logo-section {
+    gap: 8px;
   }
 
-  /* Mobile button visible */
-  .mobile-menu-btn {
-    display: block;
+  .logo-text {
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  .logo-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .logo-image {
+    width: 80%;
+    height: 80%;
   }
 }
