@@ -126,6 +126,11 @@
     box-sizing: border-box;
   }
 
+    /* Hide desktop links */
+  .nav-links {
+    display: none;
+  }
+
   /* Navbar container */
   .navbar {
     width: 100%;
