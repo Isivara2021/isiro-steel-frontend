@@ -46,7 +46,7 @@ const Dashboard = () => {
         {/* ✅ FIXED */}
         <div
           className="dashboard-card"
-          onClick={() => navigate("/admin/edit-products")}
+          onClick={() => navigate(`/admin/edit-products/${product._id}`)}
         >
           <FaEdit className="card-icon" />
           <h3>Edit / Delete Products</h3>

@@ -1,15 +1,15 @@
 // src/services/galleryService.js
 
-// Base URL of your backend (uses environment variable for deployment)
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+// Use environment variable for API URL
+const API_URL = process.env.REACT_APP_API_URL;
 
 /**
- * Fetch all gallery images
+ * Fetch all gallery images (User side)
  * @returns {Promise<Array>} array of gallery image objects
  */
 export const getGallery = async () => {
   try {
-    const res = await fetch(`${API_URL}/gallery`);
+    const res = await fetch(`${API_URL}/api/gallery`);
     if (!res.ok) throw new Error("Failed to fetch gallery");
     const data = await res.json();
     return data;
@@ -20,7 +20,7 @@ export const getGallery = async () => {
 };
 
 /**
- * Fetch gallery images by category
+ * Fetch gallery images by category (User side)
  * @param {string} category
  * @returns {Promise<Array>} filtered images
  */
@@ -41,7 +41,7 @@ export const getGalleryByCategory = async (category) => {
  */
 export const addGalleryImage = async (formData, token) => {
   try {
-    const res = await fetch(`${API_URL}/gallery`, {
+    const res = await fetch(`${API_URL}/api/gallery`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -64,7 +64,7 @@ export const addGalleryImage = async (formData, token) => {
  */
 export const deleteGalleryImage = async (id, token) => {
   try {
-    const res = await fetch(`${API_URL}/gallery/${id}`, {
+    const res = await fetch(`${API_URL}/api/gallery/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

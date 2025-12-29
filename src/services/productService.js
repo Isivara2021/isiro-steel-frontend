@@ -1,9 +1,11 @@
 // src/services/productService.js
 
 // Base URL of backend
-const API_URL = process.env.REACT_APP_API_URL; // should include https://backend-url.com in production
+const API_URL = `${process.env.REACT_APP_API_URL}/api`;
 
-// Get all products (public)
+/**
+ * Get all products (public)
+ */
 export const getProducts = async () => {
   try {
     const res = await fetch(`${API_URL}/products`);
@@ -15,7 +17,9 @@ export const getProducts = async () => {
   }
 };
 
-// Get single product by ID (public)
+/**
+ * Get single product by ID (public)
+ */
 export const getProductById = async (id) => {
   try {
     const res = await fetch(`${API_URL}/products/${id}`);
@@ -27,7 +31,9 @@ export const getProductById = async (id) => {
   }
 };
 
-// Create a new product (admin only)
+/**
+ * Create a new product (admin only)
+ */
 export const createProduct = async (formData, token) => {
   try {
     const res = await fetch(`${API_URL}/products`, {
@@ -46,7 +52,9 @@ export const createProduct = async (formData, token) => {
   }
 };
 
-// Update a product by ID (admin only)
+/**
+ * Update a product by ID (admin only)
+ */
 export const updateProduct = async (id, formData, token) => {
   try {
     const res = await fetch(`${API_URL}/products/${id}`, {
@@ -65,7 +73,9 @@ export const updateProduct = async (id, formData, token) => {
   }
 };
 
-// Delete a product by ID (admin only)
+/**
+ * Delete a product by ID (admin only)
+ */
 export const deleteProduct = async (id, token) => {
   try {
     const res = await fetch(`${API_URL}/products/${id}`, {
@@ -83,18 +93,17 @@ export const deleteProduct = async (id, token) => {
   }
 };
 
-// Remove a single image from a product (admin only)
+/**
+ * Remove a single image from a product (admin only)
+ */
 export const removeProductImage = async (productId, imageIndex, token) => {
   try {
-    const res = await fetch(
-      `${API_URL}/products/${productId}/images/${imageIndex}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await fetch(`${API_URL}/products/${productId}/images/${imageIndex}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to remove image");
     return data;
