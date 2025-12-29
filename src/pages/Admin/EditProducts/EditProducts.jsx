@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AdminContext } from "../../../context/AdminContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { compressImage } from "../../../utils/imageCompression";
 import "./EditProducts.css";
 
@@ -13,11 +13,12 @@ const LIMITS = {
   maxPrice: 10000000,
 };
 
-const API_URL = process.env.REACT_APP_API_URL; // ✅ Use the env variable here
+const API_URL = process.env.REACT_APP_API_URL;
 
 const EditProducts = () => {
   const { admin } = useContext(AdminContext);
   const navigate = useNavigate();
+  const { id } = useParams(); // Get product ID from URL (optional)
 
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -33,13 +34,21 @@ const EditProducts = () => {
     "Other",
   ];
 
+  // Initial fetch
   useEffect(() => {
     if (!admin?.token) {
       navigate("/admin/login");
       return;
     }
-    fetchProducts();
-  }, [admin, navigate]);
+
+    if (id) {
+      // If URL has a product ID, fetch that product
+      fetchProductById(id);
+    } else {
+      // Otherwise fetch all products
+      fetchProducts();
+    }
+  }, [admin, navigate, id]);
 
   const fetchProducts = async () => {
     try {
@@ -54,9 +63,25 @@ const EditProducts = () => {
     }
   };
 
+  const fetchProductById = async (productId) => {
+    try {
+      const res = await fetch(`${API_URL}/api/products/${productId}`, {
+        headers: { Authorization: `Bearer ${admin.token}` },
+      });
+      const data = await res.json();
+      setEditingProduct(data);
+      setNewImages([]);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to fetch product");
+      navigate("/admin/edit-products"); // fallback to list
+    }
+  };
+
   const handleEditClick = (product) => {
     setEditingProduct(product);
     setNewImages([]);
+    navigate(`/admin/edit-products/${product._id}`);
   };
 
   const handleDelete = async (id) => {
@@ -70,6 +95,7 @@ const EditProducts = () => {
 
       if (res.ok) {
         alert("Product deleted");
+        if (editingProduct?._id === id) setEditingProduct(null);
         fetchProducts();
       } else {
         alert("Delete failed");
@@ -81,12 +107,10 @@ const EditProducts = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name === "price") {
       const num = parseFloat(value);
       if (isNaN(num) || num < 0 || num > LIMITS.maxPrice) return;
     }
-
     setEditingProduct({ ...editingProduct, [name]: value });
   };
 
@@ -178,6 +202,7 @@ const EditProducts = () => {
         setEditingProduct(null);
         setNewImages([]);
         fetchProducts();
+        navigate("/admin/edit-products");
       } else {
         alert("Update failed");
       }
@@ -291,7 +316,12 @@ const EditProducts = () => {
               <button type="submit" disabled={loading}>
                 {loading ? "Updating..." : "Update"}
               </button>
-              <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
+              <button type="button" onClick={() => {
+                setEditingProduct(null);
+                navigate("/admin/edit-products");
+              }}>
+                Cancel
+              </button>
             </div>
           </form>
         )}
