@@ -46,7 +46,7 @@ const Dashboard = () => {
         {/* Updated to navigate to generic edit-products page */}
         <div
           className="dashboard-card"
-          onClick={() => navigate("/admin/edit-products/")}
+          onClick={() => navigate("/admin/edit-products")}
         >
           <FaEdit className="card-icon" />
           <h3>Edit / Delete Products</h3>

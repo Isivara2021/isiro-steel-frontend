@@ -32,6 +32,7 @@ function App() {
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<Dashboard />} />
       <Route path="/admin/add-product" element={<AddProduct />} />
+      <Route path="/admin/edit-products" element={<EditProducts />} />
       <Route path="/admin/edit-products/:id" element={<EditProducts />} />
       <Route path="/admin/add-image" element={<AddImage />} />
       <Route path="/admin/manage-gallery" element={<ManageGallery />} />
