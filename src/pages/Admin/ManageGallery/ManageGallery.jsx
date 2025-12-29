@@ -9,10 +9,13 @@ const ManageGallery = () => {
   const { admin } = useContext(AdminContext);
   const navigate = useNavigate();
 
+  const API_URL = process.env.REACT_APP_API_URL; // ✅ centralized API URL
+
+  // Fetch gallery images
   const fetchImages = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/gallery`, {
+      const res = await fetch(`${API_URL}/api/gallery`, {
         headers: { Authorization: `Bearer ${admin?.token}` },
       });
       const data = await res.json();
@@ -25,6 +28,7 @@ const ManageGallery = () => {
     }
   };
 
+  // Run on mount or when admin changes
   useEffect(() => {
     if (!admin?.token) {
       navigate("/admin/login");
@@ -33,12 +37,13 @@ const ManageGallery = () => {
     fetchImages();
   }, [admin, navigate]);
 
+  // Delete a gallery image
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this image?")) return;
 
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/gallery/${id}`, {
+      const res = await fetch(`${API_URL}/api/gallery/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${admin.token}` },
       });
@@ -58,6 +63,7 @@ const ManageGallery = () => {
     }
   };
 
+  // Group images by category
   const groupedImages = images.reduce((acc, img) => {
     if (!acc[img.category]) acc[img.category] = [];
     acc[img.category].push(img);

@@ -7,10 +7,11 @@ import "./AdminLogin.css";
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const { loginAdmin } = useContext(AdminContext);
   const navigate = useNavigate();
 
-  // Use environment variable for backend URL
+  // Base backend URL (NO /api here)
   const API_URL = process.env.REACT_APP_API_URL;
 
   const handleSubmit = async (e) => {
@@ -22,22 +23,28 @@ const AdminLogin = () => {
     }
 
     try {
-      const res = await fetch(`${API_URL}/admin/login`, {
+      const res = await fetch(`${API_URL}/api/admin/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ username, password }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        loginAdmin({ ...data.admin, token: data.token });
+        loginAdmin({
+          ...data.admin,
+          token: data.token,
+        });
+
         navigate("/admin/dashboard");
       } else {
         alert(data.message || "Login failed");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Server error:", err);
       alert("Server error. Please try again later.");
     }
   };
@@ -59,6 +66,7 @@ const AdminLogin = () => {
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
             />
           </div>
 
@@ -69,6 +77,7 @@ const AdminLogin = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 

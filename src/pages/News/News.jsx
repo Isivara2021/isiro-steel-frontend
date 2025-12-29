@@ -4,17 +4,24 @@ import Footer from "../../components/Footer/Footer";
 import { getAllNews } from "../../services/newsService";
 import "./News.css";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const News = () => {
   const [newsList, setNewsList] = useState([]);
   const [activeNews, setActiveNews] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
+    // Scroll to top when page loads
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     const fetchNews = async () => {
-      const data = await getAllNews();
-      setNewsList(data);
+      try {
+        const data = await getAllNews();
+        setNewsList(data);
+      } catch (err) {
+        console.error("Failed to fetch news:", err);
+      }
     };
     fetchNews();
   }, []);
@@ -45,6 +52,12 @@ const News = () => {
     );
   };
 
+  const getImageUrl = (img) => {
+    if (!img) return "";
+    if (img.startsWith("http")) return img;
+    return `${API_URL}${img}`;
+  };
+
   return (
     <>
       <Navbar />
@@ -61,7 +74,12 @@ const News = () => {
             >
               <div className="news-images-preview">
                 {news.images?.slice(0, 3).map((img, idx) => (
-                  <img key={idx} src={img} alt={news.topic} />
+                  <img
+                    key={idx}
+                    src={getImageUrl(img)}
+                    alt={news.topic}
+                    loading="lazy"
+                  />
                 ))}
               </div>
 
@@ -84,7 +102,6 @@ const News = () => {
             className="news-lightbox-content"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close button */}
             <button
               className="lightbox-close"
               onClick={() => setActiveNews(null)}
@@ -98,8 +115,9 @@ const News = () => {
               </button>
 
               <img
-                src={activeNews.images[activeImageIndex]}
+                src={getImageUrl(activeNews.images[activeImageIndex])}
                 alt={activeNews.topic}
+                loading="lazy"
               />
 
               <button className="next-image" onClick={nextImage}>
@@ -119,9 +137,10 @@ const News = () => {
                   {activeNews.images.map((img, idx) => (
                     <img
                       key={idx}
-                      src={img}
+                      src={getImageUrl(img)}
                       className={idx === activeImageIndex ? "active-thumb" : ""}
                       alt={`Thumbnail ${idx + 1}`}
+                      loading="lazy"
                       onClick={() => setActiveImageIndex(idx)}
                     />
                   ))}

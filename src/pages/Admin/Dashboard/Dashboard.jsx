@@ -7,7 +7,7 @@ import {
   FaImages,
   FaFolderOpen,
   FaUserShield,
-  FaNewspaper, // icon for news
+  FaNewspaper,
 } from "react-icons/fa";
 import "./Dashboard.css";
 
@@ -16,17 +16,21 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!admin) {
+    if (!admin?.token) {
       navigate("/admin/login");
     }
   }, [admin, navigate]);
+
+  if (!admin) return null;
 
   return (
     <div className="dashboard-page">
       <header className="dashboard-header">
         <FaUserShield className="dashboard-icon" />
         <h1>Admin Dashboard</h1>
-        <p>Welcome back, <strong>{admin?.username}</strong></p>
+        <p>
+          Welcome back, <strong>{admin.username}</strong>
+        </p>
       </header>
 
       <section className="dashboard-grid">
@@ -39,9 +43,10 @@ const Dashboard = () => {
           <p>Create and publish new products</p>
         </div>
 
+        {/* ✅ FIXED */}
         <div
           className="dashboard-card"
-          onClick={() => navigate("/admin/edit-products/:id")}
+          onClick={() => navigate("/admin/edit-products")}
         >
           <FaEdit className="card-icon" />
           <h3>Edit / Delete Products</h3>
@@ -66,7 +71,6 @@ const Dashboard = () => {
           <p>Edit or remove gallery items</p>
         </div>
 
-        {/* NEW CARD: Admin News Management */}
         <div
           className="dashboard-card"
           onClick={() => navigate("/admin/manage-news")}

@@ -1,4 +1,3 @@
-// src/pages/Item/Item.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
@@ -7,20 +6,22 @@ import { getProductById } from "../../services/productService";
 import { FaWhatsapp } from "react-icons/fa";
 import "./Item.css";
 
+const API_URL = process.env.REACT_APP_API_URL; // ✅ use env variable
+
 const Item = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
-    async function fetchProduct() {
+    const fetchProduct = async () => {
       try {
         const data = await getProductById(id);
         setProduct(data);
       } catch (err) {
         console.error(err);
       }
-    }
+    };
     fetchProduct();
   }, [id]);
 
@@ -29,7 +30,7 @@ const Item = () => {
   const getImageUrl = (img) => {
     if (!img) return "";
     if (img.startsWith("http")) return img;
-    return `http://localhost:5000${img}`;
+    return `${API_URL}${img}`; // ✅ dynamically use hosted backend URL
   };
 
   const handleWhatsApp = () => {
@@ -69,9 +70,10 @@ const Item = () => {
                 <img
                   key={idx}
                   src={getImageUrl(img)}
-                  alt=""
+                  alt={product.name + " thumbnail"}
                   className={idx === selectedImage ? "active" : ""}
                   onClick={() => setSelectedImage(idx)}
+                  loading="lazy"
                 />
               ))}
             </div>
@@ -81,9 +83,7 @@ const Item = () => {
           <div className="details">
             <h1>{product.name}</h1>
 
-            {product.price && (
-              <p className="price">LKR {product.price}</p>
-            )}
+            {product.price && <p className="price">LKR {product.price}</p>}
 
             {product.description && (
               <p className="description">{product.description}</p>

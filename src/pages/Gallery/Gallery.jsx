@@ -19,14 +19,14 @@ const Gallery = () => {
   const categoryRefs = useRef({});
 
   useEffect(() => {
-    async function fetchImages() {
+    const fetchImages = async () => {
       try {
         const data = await getGallery();
         setImages(data);
       } catch (err) {
         console.error("Gallery fetch error:", err);
       }
-    }
+    };
     fetchImages();
   }, []);
 
@@ -77,7 +77,7 @@ const Gallery = () => {
                       onClick={() => openLightbox(globalIndex)}
                     >
                       <img
-                        src={img.imageUrl}   
+                        src={img.imageUrl}
                         alt={img.title || cat}
                         loading="lazy"
                       />
@@ -106,7 +106,7 @@ const Gallery = () => {
             </button>
 
             <img
-              src={images[lightboxIndex].imageUrl}   
+              src={images[lightboxIndex].imageUrl}
               alt={images[lightboxIndex].title || "Image"}
             />
 

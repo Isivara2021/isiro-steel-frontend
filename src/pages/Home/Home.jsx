@@ -25,11 +25,11 @@ const Home = () => {
   const navigate = useNavigate();
   const [currentHero, setCurrentHero] = React.useState(0);
 
-  /* Auto slide */
+  /* Auto slide hero images */
   React.useEffect(() => {
     const interval = setInterval(() => {
       setCurrentHero((prev) => (prev + 1) % heroImages.length);
-    }, 3000); // slow = premium feel
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
@@ -128,7 +128,7 @@ const Home = () => {
                 <img
                   key={index}
                   src={img}
-                  alt="Hero"
+                  alt={`Hero ${index + 1}`}
                   className={`hero-image ${
                     index === currentHero ? "active" : ""
                   }`}
@@ -137,14 +137,18 @@ const Home = () => {
               ))}
 
               {/* DOTS */}
-              <div className="hero-dots">
+              <div className="hero-dots" aria-label="Hero slider navigation">
                 {heroImages.map((_, idx) => (
                   <span
                     key={idx}
-                    className={`hero-dot ${
-                      idx === currentHero ? "active" : ""
-                    }`}
+                    className={`hero-dot ${idx === currentHero ? "active" : ""}`}
                     onClick={() => setCurrentHero(idx)}
+                    role="button"
+                    aria-label={`Show hero image ${idx + 1}`}
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") setCurrentHero(idx);
+                    }}
                   />
                 ))}
               </div>
@@ -164,9 +168,16 @@ const Home = () => {
                 onClick={() =>
                   navigate(`/products?category=${col.category}`)
                 }
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter")
+                    navigate(`/products?category=${col.category}`);
+                }}
+                aria-label={`View ${col.name} collection`}
               >
                 <div className="collection-image">
-                  <img src={col.image} alt={col.name} />
+                  <img src={col.image} alt={col.name} loading="lazy" />
                   <div className="collection-overlay"></div>
                 </div>
 

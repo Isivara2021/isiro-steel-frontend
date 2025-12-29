@@ -22,9 +22,17 @@ const AddImage = () => {
     "Other",
   ];
 
+  /* =======================
+     IMAGE SELECT + COMPRESS
+  ======================= */
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Only image files are allowed");
+      return;
+    }
 
     if (file.size > 5 * 1024 * 1024) {
       alert("Image must be under 5MB");
@@ -35,16 +43,20 @@ const AddImage = () => {
       const compressed = await compressImage(file);
       setImage(compressed);
     } catch (err) {
-      console.error(err);
+      console.error("Compression error:", err);
       alert("Image compression failed");
     }
   };
 
+  /* =======================
+     SUBMIT
+  ======================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!admin?.token) {
       alert("Admin not logged in");
+      navigate("/admin/login");
       return;
     }
 
@@ -61,36 +73,39 @@ const AddImage = () => {
     try {
       setLoading(true);
 
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/gallery`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${admin.token}`,
-        },
-        body: formData,
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/gallery`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${admin.token}`,
+          },
+          body: formData,
+        }
+      );
 
       const data = await res.json();
 
-      if (res.ok) {
-        alert("Image added successfully!");
-        navigate("/admin/manage-gallery");
-      } else {
-        alert(data.message || "Failed to add image");
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to add image");
       }
+
+      alert("Image added successfully!");
+      navigate("/admin/manage-gallery");
     } catch (err) {
-      console.error("Server error:", err);
-      alert("Server error. Please try again later.");
+      console.error("Upload error:", err);
+      alert(err.message || "Server error. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
+  /* =======================
+     UI
+  ======================= */
   return (
     <div className="add-image-page">
-      <button
-        className="back-btn"
-        onClick={() => navigate("/admin/dashboard")}
-      >
+      <button className="back-btn" onClick={() => navigate("/admin/dashboard")}>
         ← Back to Dashboard
       </button>
 
@@ -112,11 +127,7 @@ const AddImage = () => {
           ))}
         </select>
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
+        <input type="file" accept="image/*" onChange={handleImageChange} />
 
         <button type="submit" disabled={loading}>
           {loading ? "Uploading..." : "Add Image"}

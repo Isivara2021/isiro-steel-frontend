@@ -4,9 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { compressImage } from "../../../utils/imageCompression";
 import "./EditProducts.css";
 
-/* =======================
-   INPUT SAFETY LIMITS
-======================= */
 const LIMITS = {
   name: 30,
   shortDescription: 100,
@@ -15,6 +12,8 @@ const LIMITS = {
   maxImageSizeMB: 5,
   maxPrice: 10000000,
 };
+
+const API_URL = process.env.REACT_APP_API_URL; // ✅ Use the env variable here
 
 const EditProducts = () => {
   const { admin } = useContext(AdminContext);
@@ -44,7 +43,7 @@ const EditProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products`, {
+      const res = await fetch(`${API_URL}/api/products`, {
         headers: { Authorization: `Bearer ${admin.token}` },
       });
       const data = await res.json();
@@ -64,7 +63,7 @@ const EditProducts = () => {
     if (!window.confirm("Delete this product permanently?")) return;
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products/${id}`, {
+      const res = await fetch(`${API_URL}/api/products/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${admin.token}` },
       });
@@ -91,9 +90,6 @@ const EditProducts = () => {
     setEditingProduct({ ...editingProduct, [name]: value });
   };
 
-  /* =======================
-     IMAGE HANDLING (with compression)
-  ======================== */
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
     const totalImages =
@@ -140,7 +136,7 @@ const EditProducts = () => {
 
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/products/${editingProduct._id}/images/${imgIndex}`,
+        `${API_URL}/api/products/${editingProduct._id}/images/${imgIndex}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${admin.token}` },
@@ -160,9 +156,6 @@ const EditProducts = () => {
     }
   };
 
-  /* =======================
-     SUBMIT UPDATE
-  ======================== */
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -174,14 +167,11 @@ const EditProducts = () => {
       );
       newImages.forEach((img) => formData.append("images", img));
 
-      const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/products/${editingProduct._id}`,
-        {
-          method: "PUT",
-          headers: { Authorization: `Bearer ${admin.token}` },
-          body: formData,
-        }
-      );
+      const res = await fetch(`${API_URL}/api/products/${editingProduct._id}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${admin.token}` },
+        body: formData,
+      });
 
       if (res.ok) {
         alert("Product updated");
@@ -205,10 +195,7 @@ const EditProducts = () => {
   return (
     <div className="edit-product-page-wrapper">
       <div className="edit-product-page">
-        <button
-          className="back-btn"
-          onClick={() => navigate("/admin/dashboard")}
-        >
+        <button className="back-btn" onClick={() => navigate("/admin/dashboard")}>
           ← Back to Dashboard
         </button>
 
@@ -218,9 +205,7 @@ const EditProducts = () => {
           <div className="products-list">
             {products.map((product) => (
               <div key={product._id} className="product-card">
-                {product.images?.[0] && (
-                  <img src={product.images[0]} alt={product.name || ""} />
-                )}
+                {product.images?.[0] && <img src={product.images[0]} alt={product.name || ""} />}
                 <div className="product-info">
                   <h4>{product.name}</h4>
                   <p>{product.category}</p>
@@ -228,9 +213,7 @@ const EditProducts = () => {
                 </div>
                 <div className="product-buttons">
                   <button onClick={() => handleEditClick(product)}>Edit</button>
-                  <button onClick={() => handleDelete(product._id)}>
-                    Delete
-                  </button>
+                  <button onClick={() => handleDelete(product._id)}>Delete</button>
                 </div>
               </div>
             ))}
@@ -259,10 +242,7 @@ const EditProducts = () => {
                 onChange={handleChange}
                 maxLength={LIMITS.shortDescription}
               />
-              <Counter
-                value={editingProduct.shortDescription}
-                limit={LIMITS.shortDescription}
-              />
+              <Counter value={editingProduct.shortDescription} limit={LIMITS.shortDescription} />
             </div>
 
             <div className="input-with-counter">
@@ -272,10 +252,7 @@ const EditProducts = () => {
                 onChange={handleChange}
                 maxLength={LIMITS.description}
               />
-              <Counter
-                value={editingProduct.description}
-                limit={LIMITS.description}
-              />
+              <Counter value={editingProduct.description} limit={LIMITS.description} />
             </div>
 
             <input
@@ -287,50 +264,34 @@ const EditProducts = () => {
               required
             />
 
-            <select
-              name="category"
-              value={editingProduct.category}
-              onChange={handleChange}
-            >
+            <select name="category" value={editingProduct.category} onChange={handleChange}>
               {categories.map((c) => (
                 <option key={c}>{c}</option>
               ))}
             </select>
 
-            {/* Images */}
             <div className="image-grid">
               {editingProduct.images.map((img, i) => (
                 <div key={i} className="image-wrapper">
                   <img src={img} alt="" />
-                  <button type="button" onClick={() => removeExistingImage(i)}>
-                    ✕
-                  </button>
+                  <button type="button" onClick={() => removeExistingImage(i)}>✕</button>
                 </div>
               ))}
               {newImages.map((img, i) => (
                 <div key={i} className="image-wrapper">
                   <img src={URL.createObjectURL(img)} alt="" />
-                  <button type="button" onClick={() => removeNewImage(i)}>
-                    ✕
-                  </button>
+                  <button type="button" onClick={() => removeNewImage(i)}>✕</button>
                 </div>
               ))}
             </div>
 
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={handleFileChange}
-            />
+            <input type="file" multiple accept="image/*" onChange={handleFileChange} />
 
             <div className="form-buttons">
               <button type="submit" disabled={loading}>
                 {loading ? "Updating..." : "Update"}
               </button>
-              <button type="button" onClick={() => setEditingProduct(null)}>
-                Cancel
-              </button>
+              <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
             </div>
           </form>
         )}

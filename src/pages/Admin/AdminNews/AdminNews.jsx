@@ -9,7 +9,8 @@ const MAX_TOPIC_LENGTH = 100;
 const MAX_CONTENT_LENGTH = 2000;
 const MAX_IMAGES = 5;
 
-const API_URL = process.env.REACT_APP_API_URL; // Use full backend URL
+// ✅ Base backend URL (NO /api here)
+const API_URL = process.env.REACT_APP_API_URL;
 
 const AdminNews = () => {
   const { admin } = useContext(AdminContext);
@@ -26,6 +27,13 @@ const AdminNews = () => {
   const [loading, setLoading] = useState(false);
 
   /* =========================
+     AUTH GUARD
+  ========================== */
+  useEffect(() => {
+    if (!admin?.token) navigate("/admin/login");
+  }, [admin, navigate]);
+
+  /* =========================
      FETCH NEWS
   ========================== */
   const fetchNews = async () => {
@@ -34,7 +42,7 @@ const AdminNews = () => {
       const res = await axios.get(`${API_URL}/api/news`);
       setNewsList(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
-      console.error("Fetch failed:", err.message);
+      console.error("Fetch failed:", err);
       alert("Failed to fetch news");
     } finally {
       setLoading(false);
@@ -59,50 +67,57 @@ const AdminNews = () => {
   };
 
   /* =========================
-     HANDLE IMAGE SELECT (WITH COMPRESSION)
+     HANDLE IMAGE SELECT
   ========================== */
   const handleNewImageSelect = async (e) => {
     const files = Array.from(e.target.files);
-    const totalImages = existingImages.length + newImages.length + files.length;
+    const total = existingImages.length + newImages.length + files.length;
 
-    if (totalImages > MAX_IMAGES) {
-      alert(`You can upload a maximum of ${MAX_IMAGES} images.`);
-      if (fileInputRef.current) fileInputRef.current.value = null;
+    if (total > MAX_IMAGES) {
+      alert(`Maximum ${MAX_IMAGES} images allowed.`);
+      e.target.value = null;
       return;
     }
 
     try {
       setLoading(true);
-      const compressedImages = await Promise.all(files.map((file) => compressImage(file)));
-      setNewImages((prev) => [...prev, ...compressedImages]);
+      const compressed = await Promise.all(files.map((f) => compressImage(f)));
+      setNewImages((prev) => [...prev, ...compressed]);
     } catch (err) {
-      console.error("Image compression failed:", err);
-      alert("Failed to process images");
+      console.error("Compression failed:", err);
+      alert("Image processing failed");
     } finally {
       setLoading(false);
     }
   };
 
   /* =========================
-     HANDLE SUBMIT
+     SUBMIT (ADD / UPDATE)
   ========================== */
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!admin?.token) return alert("Unauthorized");
 
-    if (!topic.trim() || !content.trim()) return alert("Topic and content cannot be empty");
-    if (topic.length > MAX_TOPIC_LENGTH || content.length > MAX_CONTENT_LENGTH)
-      return alert(`Topic max ${MAX_TOPIC_LENGTH}, content max ${MAX_CONTENT_LENGTH}`);
+    if (!topic.trim() || !content.trim())
+      return alert("Topic and content are required");
 
     try {
       setLoading(true);
+
       const formData = new FormData();
       formData.append("topic", topic);
       formData.append("content", content);
       newImages.forEach((img) => formData.append("images", img));
-      if (removedImages.length) formData.append("removedImages", JSON.stringify(removedImages));
+      if (removedImages.length) {
+        formData.append("removedImages", JSON.stringify(removedImages));
+      }
 
-      const config = { headers: { Authorization: `Bearer ${admin.token}` } };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${admin.token}`,
+        },
+      };
+
       if (editingId) {
         await axios.put(`${API_URL}/api/news/${editingId}`, formData, config);
       } else {
@@ -134,11 +149,15 @@ const AdminNews = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this news item?")) return;
+
     try {
       setLoading(true);
-      await axios.delete(`${API_URL}/api/news/${id}`, { headers: { Authorization: `Bearer ${admin.token}` } });
+      await axios.delete(`${API_URL}/api/news/${id}`, {
+        headers: { Authorization: `Bearer ${admin.token}` },
+      });
       fetchNews();
-    } catch {
+    } catch (err) {
+      console.error(err);
       alert("Delete failed");
     } finally {
       setLoading(false);
@@ -148,21 +167,18 @@ const AdminNews = () => {
   /* =========================
      IMAGE REMOVE
   ========================== */
-  const removeNewImage = (index) => {
-    setNewImages((prev) => prev.filter((_, i) => i !== index));
-    if (fileInputRef.current) fileInputRef.current.value = null;
-  };
+  const removeNewImage = (i) =>
+    setNewImages((prev) => prev.filter((_, idx) => idx !== i));
 
-  const removeExistingImage = (index) => {
-    const removed = existingImages[index];
-    setRemovedImages((prev) => [...prev, removed]);
-    setExistingImages((prev) => prev.filter((_, i) => i !== index));
+  const removeExistingImage = (i) => {
+    setRemovedImages((prev) => [...prev, existingImages[i]]);
+    setExistingImages((prev) => prev.filter((_, idx) => idx !== i));
   };
 
   /* =========================
      UI
   ========================== */
-  if (!admin) return <p>Please login as admin.</p>;
+  if (!admin) return null;
 
   return (
     <div className="admin-news-page-wrapper">
@@ -206,10 +222,12 @@ const AdminNews = () => {
           {/* Existing Images */}
           {existingImages.length > 0 && (
             <div className="image-preview">
-              {existingImages.map((img, idx) => (
-                <div key={idx} className="image-thumb">
-                  <img src={img} alt="existing" />
-                  <button type="button" onClick={() => removeExistingImage(idx)}>✕</button>
+              {existingImages.map((img, i) => (
+                <div key={i} className="image-thumb">
+                  <img src={img} alt="" />
+                  <button type="button" onClick={() => removeExistingImage(i)}>
+                    ✕
+                  </button>
                 </div>
               ))}
             </div>
@@ -218,10 +236,12 @@ const AdminNews = () => {
           {/* New Images */}
           {newImages.length > 0 && (
             <div className="image-preview">
-              {newImages.map((img, idx) => (
-                <div key={idx} className="image-thumb">
-                  <img src={URL.createObjectURL(img)} alt="new" />
-                  <button type="button" onClick={() => removeNewImage(idx)}>✕</button>
+              {newImages.map((img, i) => (
+                <div key={i} className="image-thumb">
+                  <img src={URL.createObjectURL(img)} alt="" />
+                  <button type="button" onClick={() => removeNewImage(i)}>
+                    ✕
+                  </button>
                 </div>
               ))}
             </div>
@@ -232,26 +252,26 @@ const AdminNews = () => {
           </button>
         </form>
 
-        {/* NEWS LIST CARDS */}
+        {/* NEWS LIST */}
         <div className="news-list">
           {newsList.length ? (
             newsList.map((n) => (
               <div key={n._id} className="news-card">
-                <div className="news-card-header">
-                  <h3>{n.topic}</h3>
-                  <div className="news-card-actions">
-                    <button onClick={() => handleEdit(n)}>Edit</button>
-                    <button onClick={() => handleDelete(n._id)}>Delete</button>
-                  </div>
-                </div>
-                {n.images && n.images.length > 0 && (
+                <h3>{n.topic}</h3>
+                <p>{n.content}</p>
+
+                {n.images?.length > 0 && (
                   <div className="news-card-images">
-                    {n.images.map((img, idx) => (
-                      <img key={idx} src={img} alt={`news-${idx}`} />
+                    {n.images.map((img, i) => (
+                      <img key={i} src={img} alt="" />
                     ))}
                   </div>
                 )}
-                <p className="news-card-content">{n.content}</p>
+
+                <div className="news-card-actions">
+                  <button onClick={() => handleEdit(n)}>Edit</button>
+                  <button onClick={() => handleDelete(n._id)}>Delete</button>
+                </div>
               </div>
             ))
           ) : (

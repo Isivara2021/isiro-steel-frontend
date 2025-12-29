@@ -61,7 +61,7 @@ const AddProduct = () => {
   };
 
   /* =======================
-     HANDLE FILE UPLOAD (COMPRESSED)
+     HANDLE FILE UPLOAD
   ======================= */
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
@@ -105,22 +105,35 @@ const AddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!admin?.token) return alert("Admin not logged in");
+    if (!admin?.token) {
+      alert("Admin not logged in");
+      return;
+    }
 
     const formData = new FormData();
     Object.keys(product).forEach((key) => {
-      if (key !== "images") formData.append(key, product[key]);
+      if (key !== "images") {
+        formData.append(key, product[key]);
+      }
     });
-    product.images.forEach((img) => formData.append("images", img));
+
+    product.images.forEach((img) => {
+      formData.append("images", img);
+    });
 
     try {
       setLoading(true);
 
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${admin.token}` },
-        body: formData,
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/products`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${admin.token}`,
+          },
+          body: formData,
+        }
+      );
 
       const data = await res.json();
 
@@ -230,7 +243,11 @@ const AddProduct = () => {
               required
             />
 
-            <select name="category" value={product.category} onChange={handleChange}>
+            <select
+              name="category"
+              value={product.category}
+              onChange={handleChange}
+            >
               {categories.map((c) => (
                 <option key={c} value={c}>
                   {c}
@@ -239,7 +256,12 @@ const AddProduct = () => {
             </select>
           </div>
 
-          <input type="file" multiple accept="image/*" onChange={handleFileChange} />
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleFileChange}
+          />
 
           <button type="submit" disabled={loading}>
             {loading ? "Uploading..." : "Add Product"}

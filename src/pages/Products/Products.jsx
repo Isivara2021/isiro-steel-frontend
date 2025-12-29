@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // Added useLocation
+import { useNavigate, useLocation } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
@@ -18,7 +18,7 @@ const categories = [
 
 const Products = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Get URL
+  const location = useLocation();
   const params = new URLSearchParams(location.search);
   const initialCategory = params.get("category") || "All";
 
@@ -27,6 +27,7 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
 
+  // Fetch all products
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -39,17 +40,11 @@ const Products = () => {
     fetchProducts();
   }, []);
 
-  useEffect(() => {
-  setActiveCategory(initialCategory);
-  setCurrentPage(1);
-  window.scrollTo(0, 0); // Scroll to top whenever category changes
-}, [initialCategory]);
-
-
-  // If URL category changes while staying on page, update filter
+  // Update activeCategory when URL changes
   useEffect(() => {
     setActiveCategory(initialCategory);
     setCurrentPage(1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [initialCategory]);
 
   const filteredProducts = products.filter(
@@ -79,6 +74,8 @@ const Products = () => {
               onClick={() => {
                 setActiveCategory(cat);
                 setCurrentPage(1);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                navigate(`/products${cat !== "All" ? `?category=${cat}` : ""}`);
               }}
             >
               {cat}
