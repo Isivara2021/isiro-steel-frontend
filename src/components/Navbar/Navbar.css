@@ -113,6 +113,10 @@
   transform: scale(1.1);
 }
 
+.mobile-menu-overlay {
+  display: none; /* default hidden */
+}
+
 /* =========================
    Mobile Navbar Styles
 ========================= */
@@ -144,6 +148,29 @@
     transition: transform 0.4s ease, opacity 0.4s ease;
     backdrop-filter: blur(6px); /* modern glass effect */
   }
+
+  .mobile-menu-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #ce2323;
+  color: #fff;
+  border: none;
+  font-size: 1.4rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.mobile-menu-close:hover {
+  background: #9e0909;
+  transform: scale(1.1);
+}
 
   /* Overlay active */
   .mobile-menu-overlay.active {
