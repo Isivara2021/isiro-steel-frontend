@@ -303,7 +303,7 @@ body::before {
   display: flex;
   flex-direction: column; /* image on top, text below */
   align-items: center;
-  padding: 80px 12px 12px;
+  padding: 20px 12px 12px;
   gap: 8px;
 }
 
