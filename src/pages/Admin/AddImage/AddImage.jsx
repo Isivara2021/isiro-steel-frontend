@@ -61,7 +61,7 @@ const AddImage = () => {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/gallery", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/gallery`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${admin.token}`,
@@ -78,8 +78,8 @@ const AddImage = () => {
         alert(data.message || "Failed to add image");
       }
     } catch (err) {
-      console.error(err);
-      alert("Server error");
+      console.error("Server error:", err);
+      alert("Server error. Please try again later.");
     } finally {
       setLoading(false);
     }

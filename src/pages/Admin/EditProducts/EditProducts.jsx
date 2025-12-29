@@ -44,11 +44,14 @@ const EditProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/products");
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products`, {
+        headers: { Authorization: `Bearer ${admin.token}` },
+      });
       const data = await res.json();
       setProducts(data);
     } catch (err) {
       console.error(err);
+      alert("Failed to fetch products");
     }
   };
 
@@ -61,7 +64,7 @@ const EditProducts = () => {
     if (!window.confirm("Delete this product permanently?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${admin.token}` },
       });
@@ -137,7 +140,7 @@ const EditProducts = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/products/${editingProduct._id}/images/${imgIndex}`,
+        `${process.env.REACT_APP_API_URL}/api/products/${editingProduct._id}/images/${imgIndex}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${admin.token}` },
@@ -172,7 +175,7 @@ const EditProducts = () => {
       newImages.forEach((img) => formData.append("images", img));
 
       const res = await fetch(
-        `http://localhost:5000/api/products/${editingProduct._id}`,
+        `${process.env.REACT_APP_API_URL}/api/products/${editingProduct._id}`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${admin.token}` },
@@ -225,7 +228,9 @@ const EditProducts = () => {
                 </div>
                 <div className="product-buttons">
                   <button onClick={() => handleEditClick(product)}>Edit</button>
-                  <button onClick={() => handleDelete(product._id)}>Delete</button>
+                  <button onClick={() => handleDelete(product._id)}>
+                    Delete
+                  </button>
                 </div>
               </div>
             ))}

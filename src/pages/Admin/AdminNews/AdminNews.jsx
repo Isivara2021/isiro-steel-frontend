@@ -9,6 +9,8 @@ const MAX_TOPIC_LENGTH = 100;
 const MAX_CONTENT_LENGTH = 2000;
 const MAX_IMAGES = 5;
 
+const API_URL = process.env.REACT_APP_API_URL; // Use full backend URL
+
 const AdminNews = () => {
   const { admin } = useContext(AdminContext);
   const navigate = useNavigate();
@@ -29,7 +31,7 @@ const AdminNews = () => {
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("/api/news");
+      const res = await axios.get(`${API_URL}/api/news`);
       setNewsList(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Fetch failed:", err.message);
@@ -102,9 +104,9 @@ const AdminNews = () => {
 
       const config = { headers: { Authorization: `Bearer ${admin.token}` } };
       if (editingId) {
-        await axios.put(`/api/news/${editingId}`, formData, config);
+        await axios.put(`${API_URL}/api/news/${editingId}`, formData, config);
       } else {
-        await axios.post("/api/news", formData, config);
+        await axios.post(`${API_URL}/api/news`, formData, config);
       }
 
       resetForm();
@@ -134,7 +136,7 @@ const AdminNews = () => {
     if (!window.confirm("Delete this news item?")) return;
     try {
       setLoading(true);
-      await axios.delete(`/api/news/${id}`, { headers: { Authorization: `Bearer ${admin.token}` } });
+      await axios.delete(`${API_URL}/api/news/${id}`, { headers: { Authorization: `Bearer ${admin.token}` } });
       fetchNews();
     } catch {
       alert("Delete failed");
@@ -230,9 +232,7 @@ const AdminNews = () => {
           </button>
         </form>
 
-        {/* =========================
-            NEWS LIST CARDS
-        ========================== */}
+        {/* NEWS LIST CARDS */}
         <div className="news-list">
           {newsList.length ? (
             newsList.map((n) => (

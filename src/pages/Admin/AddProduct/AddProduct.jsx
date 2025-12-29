@@ -116,7 +116,7 @@ const AddProduct = () => {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/products", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products`, {
         method: "POST",
         headers: { Authorization: `Bearer ${admin.token}` },
         body: formData,
@@ -132,7 +132,8 @@ const AddProduct = () => {
       } else {
         alert(data.message || "Failed to add product");
       }
-    } catch {
+    } catch (err) {
+      console.error("Server error:", err);
       alert("Server error. Please try again later.");
     } finally {
       setLoading(false);

@@ -9,13 +9,12 @@ const ManageGallery = () => {
   const { admin } = useContext(AdminContext);
   const navigate = useNavigate();
 
-  /* =======================
-     FETCH IMAGES
-  ======================= */
   const fetchImages = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/gallery");
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/gallery`, {
+        headers: { Authorization: `Bearer ${admin?.token}` },
+      });
       const data = await res.json();
       setImages(data);
     } catch (err) {
@@ -27,23 +26,19 @@ const ManageGallery = () => {
   };
 
   useEffect(() => {
-    fetchImages();
-  }, []);
-
-  /* =======================
-     DELETE IMAGE
-  ======================= */
-  const handleDelete = async (id) => {
     if (!admin?.token) {
-      alert("Admin not logged in");
+      navigate("/admin/login");
       return;
     }
+    fetchImages();
+  }, [admin, navigate]);
 
+  const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this image?")) return;
 
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:5000/api/gallery/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/gallery/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${admin.token}` },
       });
@@ -63,9 +58,6 @@ const ManageGallery = () => {
     }
   };
 
-  /* =======================
-     GROUP IMAGES BY CATEGORY
-  ======================= */
   const groupedImages = images.reduce((acc, img) => {
     if (!acc[img.category]) acc[img.category] = [];
     acc[img.category].push(img);
@@ -85,7 +77,6 @@ const ManageGallery = () => {
         <h2>Manage Gallery</h2>
 
         {loading && <p className="loading-text">Loading...</p>}
-
         {!loading && images.length === 0 && (
           <p className="empty-text">No images found</p>
         )}
@@ -98,7 +89,7 @@ const ManageGallery = () => {
                 {groupedImages[category].map((img) => (
                   <div key={img._id} className="gallery-card">
                     <img
-                      src={img.imageUrl} // use the full Cloudinary URL
+                      src={img.imageUrl}
                       alt={img.title || "Gallery Image"}
                     />
                     <div className="gallery-info">
