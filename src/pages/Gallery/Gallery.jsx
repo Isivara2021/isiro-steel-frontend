@@ -18,6 +18,11 @@ const Gallery = () => {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const categoryRefs = useRef({});
 
+  // ✅ Scroll to top on page load
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
+
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -65,9 +70,7 @@ const Gallery = () => {
 
               <div className="images-grid">
                 {catImages.map((img) => {
-                  const globalIndex = images.findIndex(
-                    (i) => i._id === img._id
-                  );
+                  const globalIndex = images.findIndex((i) => i._id === img._id);
 
                   return (
                     <div
@@ -76,11 +79,7 @@ const Gallery = () => {
                       data-title={img.title || cat}
                       onClick={() => openLightbox(globalIndex)}
                     >
-                      <img
-                        src={img.imageUrl}
-                        alt={img.title || cat}
-                        loading="lazy"
-                      />
+                      <img src={img.imageUrl} alt={img.title || cat} loading="lazy" />
                     </div>
                   );
                 })}
@@ -93,10 +92,7 @@ const Gallery = () => {
       {/* Lightbox */}
       {lightboxIndex !== null && (
         <div className="lightbox-overlay" onClick={closeLightbox}>
-          <div
-            className="lightbox-content"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
             <button className="lightbox-close" onClick={closeLightbox}>
               &times;
             </button>
@@ -111,9 +107,7 @@ const Gallery = () => {
             />
 
             {images[lightboxIndex].title && (
-              <p className="lightbox-caption">
-                {images[lightboxIndex].title}
-              </p>
+              <p className="lightbox-caption">{images[lightboxIndex].title}</p>
             )}
 
             <button className="lightbox-next" onClick={showNext}>

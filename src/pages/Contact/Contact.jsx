@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import {
@@ -14,6 +14,11 @@ const Contact = () => {
   const [message, setMessage] = useState("");
 
   const phoneNumber = "+94712653157"; // WhatsApp number to receive messages
+
+  // ✅ Scroll to top on page load (desktop + mobile)
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +61,11 @@ const Contact = () => {
             </div>
 
             <div className="social-links">
-              <a href="https://www.facebook.com/profile.php?id=61582691996358&mibextid=ZbWKwL" target="_blank" rel="noreferrer">
+              <a
+                href="https://www.facebook.com/profile.php?id=61582691996358&mibextid=ZbWKwL"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <FaFacebook />
               </a>
             </div>

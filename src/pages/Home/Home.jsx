@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
@@ -23,10 +23,15 @@ const heroImages = [hero1, hero2, hero3, hero4, hero5, hero6, hero7];
 
 const Home = () => {
   const navigate = useNavigate();
-  const [currentHero, setCurrentHero] = React.useState(0);
+  const [currentHero, setCurrentHero] = useState(0);
+
+  // ✅ Scroll to top on page load (desktop & mobile)
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
   /* Auto slide hero images */
-  React.useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentHero((prev) => (prev + 1) % heroImages.length);
     }, 3000);
@@ -129,9 +134,7 @@ const Home = () => {
                   key={index}
                   src={img}
                   alt={`Hero ${index + 1}`}
-                  className={`hero-image ${
-                    index === currentHero ? "active" : ""
-                  }`}
+                  className={`hero-image ${index === currentHero ? "active" : ""}`}
                   loading="lazy"
                 />
               ))}

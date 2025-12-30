@@ -188,6 +188,7 @@
 ========================= */
 @media (max-width: 768px) {
   .contact-main {
+    margin: 2rem auto 0 auto;
     padding: 20px 12px;
     min-height: auto;
   }

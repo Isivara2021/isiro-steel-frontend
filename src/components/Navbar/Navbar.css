@@ -1,6 +1,16 @@
 /* =========================
+   GLOBAL FIX
+========================= */
+
+body.menu-open {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* =========================
    Navbar Styles (Desktop)
 ========================= */
+
 .navbar {
   position: sticky;
   top: 0;
@@ -26,11 +36,13 @@
   justify-content: space-between;
 }
 
+/* Logo */
 .logo-section {
   display: flex;
   align-items: center;
   gap: 12px;
   cursor: pointer;
+  text-decoration: none;
   transition: transform 0.3s ease;
 }
 
@@ -60,8 +72,10 @@
   color: #f0f0f0;
   letter-spacing: 0.5px;
   text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  text-decoration: none;
 }
 
+/* Desktop Nav Links */
 .nav-links {
   display: flex;
   gap: 32px;
@@ -96,6 +110,7 @@
   color: #dcdcdc;
 }
 
+/* Mobile Menu Button (hidden on desktop) */
 .mobile-menu-btn {
   display: none;
   background: rgba(255,255,255,0.1);
@@ -113,60 +128,55 @@
   transform: scale(1.1);
 }
 
+/* Hide mobile menu completely on desktop */
 .mobile-menu-overlay {
-  display: none; /* default hidden */
+  display: none;
 }
 
 /* =========================
-   MOBILE NAVBAR FIXED
+   MOBILE NAVBAR
 ========================= */
 @media (max-width: 768px) {
-  /* Apply border-box to all navbar elements to avoid overflow */
-  .navbar, .navbar * {
+
+  .navbar,
+  .navbar * {
     box-sizing: border-box;
   }
 
-    /* Hide desktop links */
+  /* Hide desktop links */
   .nav-links {
     display: none;
   }
 
   /* Navbar container */
   .navbar {
-    width: 100%;
-    max-width: 100%;
-    height: 60px; /* thinner navbar */
-    padding: 0 12px;
-    background: #556b2f; /* brand color */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    overflow-x: hidden; /* prevent horizontal scroll */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0 12px;
+    background: #556b2f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     z-index: 300;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
 
   .navbar-container {
-    flex-direction: row;
-    align-items: center;
     width: 100%;
     padding: 0;
-    overflow: hidden;
   }
 
-  /* Logo section */
+  /* Logo */
   .logo-section {
-    display: flex;
-    align-items: center;
     gap: 6px;
   }
 
   .logo-icon {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
   }
 
   .logo-image {
@@ -177,97 +187,109 @@
   .logo-text {
     font-size: 0.95rem;
     font-weight: 600;
-    color: #fff;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #fff;
+    text-decoration: none;
   }
 
   /* Mobile menu button */
   .mobile-menu-btn {
     display: block;
-    font-size: 1.6rem;
-    padding: 6px;
     background: transparent;
-    color: #fff;
     border: none;
+    font-size: 1.6rem;
+    color: #fff;
     cursor: pointer;
   }
 
-/* Mobile menu overlay */
-.mobile-menu-overlay {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.96);
-  color: #333;
+  /* =========================
+     MOBILE MENU OVERLAY
+  ========================= */
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 60px; /* below navbar */
+    left: 0;
+    width: 100%;
+    max-height: calc(100vh - 60px);
+    background: rgba(255, 255, 255, 0.9); /* semi-transparent */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 40px;
+    gap: 20px;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s ease,
+      visibility 0.35s;
+  }
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 80px;
-  gap: 24px;
+  .mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
 
-  z-index: 400; /* ABOVE navbar */
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-
-  transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s;
-  overflow-y: auto;
-}
-
-/* Overlay active */
-.mobile-menu-overlay.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
-}
+  /* Mobile menu inner panel */
+  .mobile-menu-panel {
+    background: #fff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 320px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
 
   /* Mobile menu links */
   .mobile-menu-overlay a {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
     text-decoration: none;
     color: #333;
     text-align: center;
-    width: 90%; /* slightly smaller than full width */
-    max-width: 300px;
+    width: 100%;
     padding: 12px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    transition: color 0.3s ease, transform 0.2s ease;
-    word-wrap: break-word;
+    border-radius: 8px;
+    transition: all 0.25s ease;
   }
 
   .mobile-menu-overlay a:hover {
-    color: #6b8e23;
-    transform: scale(1.05);
+    color: #556b2f;
+    transform: translateX(4px);
   }
 
-  /* Mobile close button */
+  /* Close button */
   .mobile-menu-close {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    background: gray;
+    top: 12px;
+    right: 12px;
+    background: #556b2f;
     color: #fff;
     border: none;
-    font-size: 1.4rem;
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
+    font-size: 1.4rem;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    z-index: 210;
+    z-index: 1000;
+    transition: all 0.25s ease;
   }
 
   .mobile-menu-close:hover {
-    background: gray;
+    background: #6b8e23;
     transform: scale(1.1);
   }
 }

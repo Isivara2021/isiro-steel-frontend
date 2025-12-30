@@ -6,12 +6,17 @@ import { getProductById } from "../../services/productService";
 import { FaWhatsapp } from "react-icons/fa";
 import "./Item.css";
 
-const API_URL = process.env.REACT_APP_API_URL; // ✅ use env variable
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Item = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
+
+  // ✅ Scroll to top whenever the product ID changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [id]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -30,7 +35,7 @@ const Item = () => {
   const getImageUrl = (img) => {
     if (!img) return "";
     if (img.startsWith("http")) return img;
-    return `${API_URL}${img}`; // ✅ dynamically use hosted backend URL
+    return `${API_URL}${img}`;
   };
 
   const handleWhatsApp = () => {
