@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import Loader from "../../components/Loader/Loader"; // ✅ Import Loader
 import { getAllNews } from "../../services/newsService";
 import "./News.css";
 
@@ -8,6 +9,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const News = () => {
   const [newsList, setNewsList] = useState([]);
+  const [loading, setLoading] = useState(true); // ✅ Loading state
   const [activeNews, setActiveNews] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
@@ -21,6 +23,8 @@ const News = () => {
         setNewsList(data);
       } catch (err) {
         console.error("Failed to fetch news:", err);
+      } finally {
+        setLoading(false); // ✅ Stop loading when fetch completes
       }
     };
     fetchNews();
@@ -65,34 +69,39 @@ const News = () => {
       <div className="news-page">
         <h1 className="news-title">Latest News</h1>
 
-        <div className="news-list">
-          {newsList.map((news) => (
-            <div
-              key={news._id}
-              className="news-card"
-              onClick={() => openLightbox(news)}
-            >
-              <div className="news-images-preview">
-                {news.images?.slice(0, 3).map((img, idx) => (
-                  <img
-                    key={idx}
-                    src={getImageUrl(img)}
-                    alt={news.topic}
-                    loading="lazy"
-                  />
-                ))}
-              </div>
+        {/* ✅ Show loader if still fetching */}
+        {loading ? (
+          <Loader text="Loading news..." />
+        ) : (
+          <div className="news-list">
+            {newsList.map((news) => (
+              <div
+                key={news._id}
+                className="news-card"
+                onClick={() => openLightbox(news)}
+              >
+                <div className="news-images-preview">
+                  {news.images?.slice(0, 3).map((img, idx) => (
+                    <img
+                      key={idx}
+                      src={getImageUrl(img)}
+                      alt={news.topic}
+                      loading="lazy"
+                    />
+                  ))}
+                </div>
 
-              <div className="news-content">
-                <h2>{news.topic}</h2>
-                <p>{news.content.slice(0, 120)}...</p>
-                <span className="news-date">
-                  {new Date(news.date).toLocaleDateString()}
-                </span>
+                <div className="news-content">
+                  <h2>{news.topic}</h2>
+                  <p>{news.content.slice(0, 120)}...</p>
+                  <span className="news-date">
+                    {new Date(news.date).toLocaleDateString()}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* LIGHTBOX */}

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import Loader from "../../components/Loader/Loader"; // ✅ Import Loader
 import { getProducts } from "../../services/productService";
 import "./Products.css";
 
@@ -25,6 +26,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true); // ✅ Loading state
   const productsPerPage = 8;
 
   // Fetch all products
@@ -35,6 +37,8 @@ const Products = () => {
         setProducts(data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false); // ✅ Stop loading when fetch completes
       }
     }
     fetchProducts();
@@ -83,22 +87,27 @@ const Products = () => {
           ))}
         </div>
 
-        <div className="products-grid">
-          {currentProducts.length === 0 && (
-            <p>No products available in this category.</p>
-          )}
-          {currentProducts.map((product) => (
-            <div
-              key={product._id}
-              className="product-card-wrapper"
-              onClick={() => navigate(`/product/${product._id}`)}
-            >
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
+        {/* ✅ Loader */}
+        {loading ? (
+          <Loader text="Loading products..." />
+        ) : (
+          <div className="products-grid">
+            {currentProducts.length === 0 && (
+              <p>No products available in this category.</p>
+            )}
+            {currentProducts.map((product) => (
+              <div
+                key={product._id}
+                className="product-card-wrapper"
+                onClick={() => navigate(`/product/${product._id}`)}
+              >
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        )}
 
-        {totalPages > 1 && (
+        {!loading && totalPages > 1 && (
           <div className="pagination">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

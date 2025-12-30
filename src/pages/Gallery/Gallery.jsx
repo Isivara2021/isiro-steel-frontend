@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import Loader from "../../components/Loader/Loader";
 import { getGallery } from "../../services/galleryService";
 import "./Gallery.css";
 
@@ -15,10 +16,11 @@ const categories = [
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const categoryRefs = useRef({});
 
-  // ✅ Scroll to top on page load
+  // Scroll to top on page load
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, []);
@@ -30,6 +32,8 @@ const Gallery = () => {
         setImages(data);
       } catch (err) {
         console.error("Gallery fetch error:", err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchImages();
@@ -56,43 +60,57 @@ const Gallery = () => {
           <p>Browse our handcrafted collections by category.</p>
         </header>
 
-        {categories.map((cat) => {
-          const catImages = images.filter((img) => img.category === cat);
-          if (!catImages.length) return null;
+        {/* ✅ Loader */}
+        {loading ? (
+          <Loader text="Loading gallery..." />
+        ) : (
+          categories.map((cat) => {
+            const catImages = images.filter((img) => img.category === cat);
+            if (!catImages.length) return null;
 
-          return (
-            <section
-              key={cat}
-              className="category-section"
-              ref={(el) => (categoryRefs.current[cat] = el)}
-            >
-              <h2 className="category-title">{cat}</h2>
+            return (
+              <section
+                key={cat}
+                className="category-section"
+                ref={(el) => (categoryRefs.current[cat] = el)}
+              >
+                <h2 className="category-title">{cat}</h2>
 
-              <div className="images-grid">
-                {catImages.map((img) => {
-                  const globalIndex = images.findIndex((i) => i._id === img._id);
+                <div className="images-grid">
+                  {catImages.map((img) => {
+                    const globalIndex = images.findIndex(
+                      (i) => i._id === img._id
+                    );
 
-                  return (
-                    <div
-                      key={img._id}
-                      className="image-card"
-                      data-title={img.title || cat}
-                      onClick={() => openLightbox(globalIndex)}
-                    >
-                      <img src={img.imageUrl} alt={img.title || cat} loading="lazy" />
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-          );
-        })}
+                    return (
+                      <div
+                        key={img._id}
+                        className="image-card"
+                        data-title={img.title || cat}
+                        onClick={() => openLightbox(globalIndex)}
+                      >
+                        <img
+                          src={img.imageUrl}
+                          alt={img.title || cat}
+                          loading="lazy"
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })
+        )}
       </main>
 
       {/* Lightbox */}
       {lightboxIndex !== null && (
         <div className="lightbox-overlay" onClick={closeLightbox}>
-          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="lightbox-content"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button className="lightbox-close" onClick={closeLightbox}>
               &times;
             </button>
@@ -107,7 +125,9 @@ const Gallery = () => {
             />
 
             {images[lightboxIndex].title && (
-              <p className="lightbox-caption">{images[lightboxIndex].title}</p>
+              <p className="lightbox-caption">
+                {images[lightboxIndex].title}
+              </p>
             )}
 
             <button className="lightbox-next" onClick={showNext}>
