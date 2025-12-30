@@ -242,11 +242,11 @@
 @media (max-width: 768px) {
   .gallery-main {
     padding: 0.8rem 0.5rem;
-    margin: 2rem auto 0 auto;
+    margin: 2.2rem auto 0 auto;
   }
 
   .gallery-header h1 {
-    font-size: 1.9rem;
+    font-size: 2rem;
     text-align: center;
     margin-bottom: 0.2rem;
   }
