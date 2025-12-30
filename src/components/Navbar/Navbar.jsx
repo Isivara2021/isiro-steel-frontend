@@ -35,7 +35,7 @@ const Navbar = () => {
         <Link to="/" className="logo-section" onClick={closeMenu}>
           <div className="logo-icon">
             <img
-              src={require("../../assets/logo.png")}
+              src={require("../../assets/logo.webp")}
               alt="ISIRO Steel Logo"
               className="logo-image"
             />

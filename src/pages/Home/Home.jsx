@@ -4,20 +4,20 @@ import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import "./Home.css";
 
-import hero1 from "../../assets/hero1.png";
-import hero2 from "../../assets/hero2.jpg";
-import hero3 from "../../assets/hero3.jpg";
-import hero4 from "../../assets/hero4.jpg";
-import hero5 from "../../assets/hero5.jpg";
-import hero6 from "../../assets/hero6.jpg";
-import hero7 from "../../assets/hero7.jpg";
+import hero1 from "../../assets/hero1.webp";
+import hero2 from "../../assets/hero2.webp";
+import hero3 from "../../assets/hero3.webp";
+import hero4 from "../../assets/hero4.webp";
+import hero5 from "../../assets/hero5.webp";
+import hero6 from "../../assets/hero6.webp";
+import hero7 from "../../assets/hero7.webp";
 
-import furnitureImage from "../../assets/furniture.png";
-import decorativeImage from "../../assets/decorative.png";
-import outdoorImage from "../../assets/outdoor.png";
-import kitchenImage from "../../assets/kitchen.png";
-import railingImage from "../../assets/railing.jpg";
-import otherImage from "../../assets/other.png";
+import furnitureImage from "../../assets/furniture.webp";
+import decorativeImage from "../../assets/decorative.webp";
+import outdoorImage from "../../assets/outdoor.webp";
+import kitchenImage from "../../assets/kitchen.webp";
+import railingImage from "../../assets/railing.webp";
+import otherImage from "../../assets/other.webp";
 
 const heroImages = [hero1, hero2, hero3, hero4, hero5, hero6, hero7];
 
