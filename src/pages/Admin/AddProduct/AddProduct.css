@@ -1,6 +1,3 @@
-/* =========================
-   ADD PRODUCT PAGE
-======================== */
 .add-product-page {
   padding: 40px 20px;
   background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
@@ -20,7 +17,6 @@
 }
 
 .back-btn {
-  display: inline-block;
   padding: 8px 16px;
   background-color: #2a6724;
   color: #fff;
@@ -61,12 +57,9 @@
   flex-direction: column;
   gap: 22px;
   padding: 35px 30px;
-  box-sizing: border-box;
-  position: relative;
-  z-index: 1;
 }
 
-/* Header with Icon */
+/* Header */
 .add-product-header {
   text-align: center;
   margin-bottom: 28px;
@@ -89,7 +82,7 @@
   color: #555;
 }
 
-/* Input / Textarea / Select Fields */
+/* Inputs */
 .add-product-form input,
 .add-product-form textarea,
 .add-product-form select {
@@ -120,17 +113,16 @@
   font-size: 0.75rem;
   text-align: right;
   margin-top: 4px;
-  display: block;
   color: #777;
 }
 
-/* Textarea Height */
+/* Textarea */
 .add-product-form textarea {
   min-height: 140px;
   resize: vertical;
 }
 
-/* Side-by-Side Fields Row */
+/* Form row */
 .form-row {
   display: flex;
   gap: 20px;
@@ -140,7 +132,7 @@
   flex: 1;
 }
 
-/* File Input */
+/* File input */
 .add-product-form input[type="file"] {
   padding: 8px 10px;
   cursor: pointer;
@@ -148,10 +140,8 @@
   border-radius: 10px;
 }
 
-/* =========================
-   SUBMIT BUTTON (ISOLATED)
-======================== */
-.add-product-form .submit-btn {
+/* Submit Button */
+.submit-btn {
   padding: 14px 28px;
   background: linear-gradient(135deg, #43cea2, #185a9d);
   color: #fff;
@@ -162,35 +152,19 @@
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   align-self: center;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 10; /* above all image buttons */
-  position: relative;
 }
 
-.add-product-form .submit-btn:hover {
+.submit-btn:hover {
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 10px 25px rgba(17, 212, 82, 0.35);
 }
 
-/* Prevent image buttons from affecting submit button */
-.add-product-form button:not(.submit-btn) {
-  all: unset;
-  position: absolute;
-  cursor: pointer;
-}
-
-/* =========================
-   IMAGE PREVIEWS
-======================== */
+/* Image Previews */
 .image-previews {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 12px;
-  position: relative;
-  z-index: 1;
 }
 
 .image-wrapper {
@@ -201,23 +175,16 @@
   overflow: hidden;
   border: 1px solid #ccc;
   background: #fefefe;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .image-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-.image-wrapper:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-}
-
-/* REMOVE BUTTON */
-.image-wrapper .remove-btn {
+.remove-btn {
+  position: absolute;
   top: 4px;
   right: 4px;
   width: 16px;
@@ -229,17 +196,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   transition: all 0.2s ease;
-  position: absolute;
 }
 
-.image-wrapper .remove-btn:hover {
+.remove-btn:hover {
   transform: scale(1.1);
   opacity: 1;
 }
 
-/* SET-AS-PREVIEW BUTTON */
-.image-wrapper .set-preview-btn {
+.set-preview-btn {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -252,56 +218,47 @@
   line-height: 20px;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.image-wrapper .set-preview-btn:hover {
+.set-preview-btn:hover {
   background: rgba(59, 130, 246, 1);
 }
 
-/* Active preview border */
-.image-wrapper.preview-selected {
+.preview-selected {
   border: 2px solid #3b82f6;
 }
 
-/* =========================
-   Responsive adjustments
-======================== */
+/* Responsive */
 @media (max-width: 650px) {
   .form-row {
     flex-direction: column;
   }
-
   .add-product-header h1 {
     font-size: 1.8rem;
   }
-
   .add-product-header p {
     font-size: 0.9rem;
   }
-
-  .add-product-form .submit-btn {
+  .submit-btn {
     width: 100%;
     justify-content: center;
   }
-
   .back-btn {
     padding: 8px 14px;
     font-size: 13px;
   }
-
   .image-wrapper {
     width: 70px;
     height: 70px;
   }
-
-  .image-wrapper .remove-btn {
+  .remove-btn {
     width: 14px;
     height: 14px;
     font-size: 9px;
   }
-
-  .image-wrapper .set-preview-btn {
+  .set-preview-btn {
     height: 18px;
     font-size: 7px;
     line-height: 18px;

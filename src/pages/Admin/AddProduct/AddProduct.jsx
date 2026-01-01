@@ -28,8 +28,8 @@ const AddProduct = () => {
     description: "",
     price: "",
     category: "Furniture",
-    images: [], // File objects
-    previewIndex: 0, // main card preview
+    images: [],
+    previewIndex: 0,
   });
 
   const [errors, setErrors] = useState([]);
@@ -55,7 +55,6 @@ const AddProduct = () => {
 
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
-
     if (files.length + product.images.length > LIMITS.maxImages) {
       alert(`Maximum ${LIMITS.maxImages} images allowed.`);
       e.target.value = null;
@@ -75,11 +74,9 @@ const AddProduct = () => {
           e.target.value = null;
           return;
         }
-
         const compressed = await compressImage(file);
         compressedImages.push(compressed);
       }
-
       setProduct({
         ...product,
         images: [...product.images, ...compressedImages],
@@ -238,13 +235,11 @@ const AddProduct = () => {
                 >
                   <img src={URL.createObjectURL(img)} alt={`Preview ${idx}`} />
                   <button type="button" className="remove-btn" onClick={() => removeImage(idx)}>×</button>
-                  <button
-                    type="button"
-                    className="set-preview-btn"
-                    onClick={() => setPreview(idx)}
-                  >
-                    Set as Preview
-                  </button>
+                  {idx !== product.previewIndex && (
+                    <button type="button" className="set-preview-btn" onClick={() => setPreview(idx)}>
+                      Set as Preview
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
