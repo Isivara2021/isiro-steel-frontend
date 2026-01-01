@@ -2,11 +2,9 @@ import React from "react";
 import styles from "./ProductCard.module.css";
 
 const ProductCard = ({ product }) => {
-  // Use previewIndex if available, otherwise fallback to 0
-  const previewIndex = product.previewIndex || 0;
   const imageUrl =
-    product.images && product.images.length
-      ? product.images[previewIndex] // assuming this is the URL from backend
+    product.images && product.images.length > 0
+      ? product.images[0]   // ✅ always first image
       : "/placeholder.png";
 
   return (
@@ -18,7 +16,7 @@ const ProductCard = ({ product }) => {
           className={styles.productImage}
           loading="lazy"
         />
-        <div className={styles.imageOverlay}></div>
+        <div className={styles.imageOverlay} />
       </div>
 
       <div className={styles.productInfo}>

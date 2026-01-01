@@ -29,7 +29,7 @@ const AddProduct = () => {
     price: "",
     category: "Furniture",
     images: [],
-    previewIndex: 0,
+    previewIndex: 0, // always 0
   });
 
   const [errors, setErrors] = useState([]);
@@ -55,6 +55,7 @@ const AddProduct = () => {
 
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
+
     if (files.length + product.images.length > LIMITS.maxImages) {
       alert(`Maximum ${LIMITS.maxImages} images allowed.`);
       e.target.value = null;
@@ -66,21 +67,21 @@ const AddProduct = () => {
       for (let file of files) {
         if (!file.type.startsWith("image/")) {
           alert("Only image files are allowed.");
-          e.target.value = null;
           return;
         }
         if (file.size > LIMITS.maxImageSizeMB * 1024 * 1024) {
           alert(`Each image must be under ${LIMITS.maxImageSizeMB}MB.`);
-          e.target.value = null;
           return;
         }
         const compressed = await compressImage(file);
         compressedImages.push(compressed);
       }
-      setProduct({
-        ...product,
-        images: [...product.images, ...compressedImages],
-      });
+
+      setProduct((prev) => ({
+        ...prev,
+        images: [...prev.images, ...compressedImages],
+        previewIndex: 0, // always first image
+      }));
     } catch (err) {
       console.error(err);
       alert("Image compression failed");
@@ -90,19 +91,17 @@ const AddProduct = () => {
   const removeImage = (index) => {
     setProduct((prev) => {
       const newImages = prev.images.filter((_, i) => i !== index);
-      let newPreview = prev.previewIndex;
-      if (index === prev.previewIndex) newPreview = 0;
-      else if (index < prev.previewIndex) newPreview -= 1;
-      return { ...prev, images: newImages, previewIndex: newPreview };
+      return {
+        ...prev,
+        images: newImages,
+        previewIndex: 0, // reset to first image
+      };
     });
-  };
-
-  const setPreview = (index) => {
-    setProduct((prev) => ({ ...prev, previewIndex: index }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!admin?.token) {
       alert("Admin not logged in");
       return;
@@ -110,31 +109,37 @@ const AddProduct = () => {
 
     const formData = new FormData();
     Object.keys(product).forEach((key) => {
-      if (key !== "images" && key !== "previewIndex") {
+      if (key !== "images") {
         formData.append(key, product[key]);
       }
     });
+
     product.images.forEach((img) => formData.append("images", img));
-    formData.append("previewIndex", product.previewIndex);
+    formData.append("previewIndex", 0);
 
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${admin.token}` },
-        body: formData,
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/products`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${admin.token}`,
+          },
+          body: formData,
+        }
+      );
+
       const data = await res.json();
+
       if (res.ok) {
         alert("Product added successfully!");
         navigate("/admin/dashboard");
-      } else if (data.errors) {
-        setErrors(data.errors.map((err) => `${err.param}: ${err.msg}`));
       } else {
         alert(data.message || "Failed to add product");
       }
     } catch (err) {
-      console.error("Server error:", err);
+      console.error(err);
       alert("Server error. Please try again later.");
     } finally {
       setLoading(false);
@@ -163,14 +168,6 @@ const AddProduct = () => {
             <p>Create and publish a new product listing</p>
           </header>
 
-          {errors.length > 0 && (
-            <div className="backend-errors">
-              {errors.map((err, idx) => (
-                <p key={idx} style={{ color: "#d11a2a", fontSize: "0.9rem" }}>{err}</p>
-              ))}
-            </div>
-          )}
-
           <div className="input-with-counter">
             <input
               type="text"
@@ -193,7 +190,10 @@ const AddProduct = () => {
               onChange={handleChange}
               maxLength={LIMITS.shortDescription}
             />
-            <Counter value={product.shortDescription} limit={LIMITS.shortDescription} />
+            <Counter
+              value={product.shortDescription}
+              limit={LIMITS.shortDescription}
+            />
           </div>
 
           <div className="input-with-counter">
@@ -214,13 +214,18 @@ const AddProduct = () => {
               name="price"
               value={product.price}
               onChange={handleChange}
-              min="0"
-              max={LIMITS.maxPrice}
-              step="0.01"
               required
             />
-            <select name="category" value={product.category} onChange={handleChange}>
-              {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+            <select
+              name="category"
+              value={product.category}
+              onChange={handleChange}
+            >
+              {categories.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -231,15 +236,18 @@ const AddProduct = () => {
               {product.images.map((img, idx) => (
                 <div
                   key={idx}
-                  className={`image-wrapper ${idx === product.previewIndex ? "preview-selected" : ""}`}
+                  className={`image-wrapper ${
+                    idx === 0 ? "preview-selected" : ""
+                  }`}
                 >
                   <img src={URL.createObjectURL(img)} alt={`Preview ${idx}`} />
-                  <button type="button" className="remove-btn" onClick={() => removeImage(idx)}>×</button>
-                  {idx !== product.previewIndex && (
-                    <button type="button" className="set-preview-btn" onClick={() => setPreview(idx)}>
-                      Set as Preview
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    className="remove-btn"
+                    onClick={() => removeImage(idx)}
+                  >
+                    ×
+                  </button>
                 </div>
               ))}
             </div>
