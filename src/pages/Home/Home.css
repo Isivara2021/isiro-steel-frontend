@@ -6,6 +6,11 @@
   color: #2c3e2e;
 }
 
+/* Remove blue tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   margin: 0;
   padding: 0;
