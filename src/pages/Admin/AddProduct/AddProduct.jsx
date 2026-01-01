@@ -28,8 +28,8 @@ const AddProduct = () => {
     description: "",
     price: "",
     category: "Furniture",
-    images: [], // stores File objects
-    previewIndex: 0, // index of the image to be used as card preview
+    images: [], // File objects
+    previewIndex: 0, // main card preview
   });
 
   const [errors, setErrors] = useState([]);
@@ -64,7 +64,6 @@ const AddProduct = () => {
 
     try {
       const compressedImages = [];
-
       for (let file of files) {
         if (!file.type.startsWith("image/")) {
           alert("Only image files are allowed.");
@@ -107,7 +106,6 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!admin?.token) {
       alert("Admin not logged in");
       return;
@@ -240,17 +238,19 @@ const AddProduct = () => {
                 >
                   <img src={URL.createObjectURL(img)} alt={`Preview ${idx}`} />
                   <button type="button" className="remove-btn" onClick={() => removeImage(idx)}>×</button>
-                  {idx !== product.previewIndex && (
-                    <button type="button" className="set-preview-btn" onClick={() => setPreview(idx)}>
-                      Set as Preview
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    className="set-preview-btn"
+                    onClick={() => setPreview(idx)}
+                  >
+                    Set as Preview
+                  </button>
                 </div>
               ))}
             </div>
           )}
 
-          <button type="submit" disabled={loading}>
+          <button type="submit" className="submit-btn" disabled={loading}>
             {loading ? "Uploading..." : "Add Product"}
           </button>
         </form>

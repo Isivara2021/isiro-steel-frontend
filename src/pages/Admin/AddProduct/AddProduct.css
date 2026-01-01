@@ -34,7 +34,6 @@
 
 .back-btn:hover {
   background-color: #11d452;
-  color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(17, 212, 82, 0.35);
 }
@@ -63,6 +62,8 @@
   gap: 22px;
   padding: 35px 30px;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 /* Header with Icon */
@@ -147,8 +148,10 @@
   border-radius: 10px;
 }
 
-/* Submit Button */
-.add-product-form button.submit-btn {
+/* =========================
+   SUBMIT BUTTON (ISOLATED)
+======================== */
+.add-product-form .submit-btn {
   padding: 14px 28px;
   background: linear-gradient(135deg, #43cea2, #185a9d);
   color: #fff;
@@ -162,11 +165,20 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  z-index: 10; /* above all image buttons */
+  position: relative;
 }
 
-.add-product-form button.submit-btn:hover {
+.add-product-form .submit-btn:hover {
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 10px 25px rgba(17, 212, 82, 0.35);
+}
+
+/* Prevent image buttons from affecting submit button */
+.add-product-form button:not(.submit-btn) {
+  all: unset;
+  position: absolute;
+  cursor: pointer;
 }
 
 /* =========================
@@ -177,6 +189,8 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 12px;
+  position: relative;
+  z-index: 1;
 }
 
 .image-wrapper {
@@ -202,36 +216,29 @@
   box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
-/* -------------------------
-   REMOVE BUTTON - Minimal
-------------------------- */
+/* REMOVE BUTTON */
 .image-wrapper .remove-btn {
-  position: absolute;
   top: 4px;
   right: 4px;
   width: 16px;
   height: 16px;
   background: rgba(220,38,38,0.8);
-  border: none;
-  color: white;
+  color: #fff;
   font-size: 10px;
   border-radius: 50%;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.85;
   transition: all 0.2s ease;
+  position: absolute;
 }
 
 .image-wrapper .remove-btn:hover {
-  opacity: 1;
   transform: scale(1.1);
+  opacity: 1;
 }
 
-/* -------------------------
-   SET-AS-PREVIEW BUTTON - Minimal Overlay
-------------------------- */
+/* SET-AS-PREVIEW BUTTON */
 .image-wrapper .set-preview-btn {
   position: absolute;
   bottom: 0;
@@ -240,30 +247,26 @@
   height: 20px;
   background: rgba(59, 130, 246, 0.7);
   color: white;
-  border: none;
   font-size: 8px;
   text-align: center;
   line-height: 20px;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-  cursor: pointer;
-  opacity: 0.85;
   transition: all 0.2s ease;
 }
 
 .image-wrapper .set-preview-btn:hover {
-  opacity: 1;
   background: rgba(59, 130, 246, 1);
 }
 
 /* Active preview border */
-.image-wrapper .preview-selected {
+.image-wrapper.preview-selected {
   border: 2px solid #3b82f6;
 }
 
-/* -------------------------
+/* =========================
    Responsive adjustments
-------------------------- */
+======================== */
 @media (max-width: 650px) {
   .form-row {
     flex-direction: column;
@@ -277,7 +280,7 @@
     font-size: 0.9rem;
   }
 
-  .add-product-form button.submit-btn {
+  .add-product-form .submit-btn {
     width: 100%;
     justify-content: center;
   }
