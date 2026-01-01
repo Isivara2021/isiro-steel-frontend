@@ -1,3 +1,6 @@
+/* =========================
+   PRODUCTS PAGE
+========================= */
 .products-page {
   padding: 40px 20px;
   max-width: 1400px;
@@ -15,15 +18,32 @@
   font-size: 3rem;
   font-weight: 700;
   color: #2c3e2e;
+  margin-bottom: 8px;
 }
 
 .page-heading p {
   font-size: 1.125rem;
   color: #6b7280;
-  margin-top: 8px;
+  margin-top: 0;
 }
 
-/* Category Chips */
+/* =========================
+   COLLECTION SECTION
+========================= */
+.collection-section {
+  margin-bottom: 48px;
+}
+
+.collection-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #2c3e2e;
+}
+
+/* =========================
+   CATEGORY CHIPS
+========================= */
 .category-chips {
   display: flex;
   gap: 12px;
@@ -59,14 +79,18 @@
   box-shadow: 0 4px 12px rgba(17,212,82,0.4);
 }
 
-/* Products Grid */
+/* =========================
+   PRODUCTS GRID
+========================= */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
-  margin-top: 24px;
+  gap: 28px;
 }
 
+/* =========================
+   PRODUCT CARD WRAPPER
+========================= */
 .product-card-wrapper {
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -77,37 +101,64 @@
   box-shadow: 0 10px 20px rgba(0,0,0,0.12);
 }
 
-/* Pagination */
-.pagination {
+/* =========================
+   PRODUCT CARD CONTENT
+   Adjust spacing for images/text
+========================= */
+.product-card {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin-top: 32px;
-}
-
-.pagination button {
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  background-color: #f0f0f0;
-  color: #111;
+  flex-direction: column;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
   transition: all 0.3s ease;
 }
 
-.pagination button:hover {
-  background-color: #d4d4d4;
+.product-card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-bottom: 1px solid #f0f0f0;
+  transition: transform 0.3s ease;
 }
 
-.pagination .active-page {
-  background: linear-gradient(135deg, #5b9157, #6b8e23);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(17,212,82,0.4);
+.product-card:hover img {
+  transform: scale(1.05);
 }
 
-/* Scrollbar for category chips (optional) */
+.product-card-content {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+  gap: 6px; /* reduced gap between title, description, price */
+}
+
+.product-card-content h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #2c3e2e;
+}
+
+.product-card-content p {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.4;
+  height: 40px; /* show small preview for short description */
+  overflow: hidden;
+}
+
+.product-card-content .price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d681b;
+}
+
+/* =========================
+   SCROLLBARS
+========================= */
 .category-chips::-webkit-scrollbar {
   height: 6px;
 }
@@ -121,8 +172,11 @@
   border-radius: 3px;
 }
 
-/* Responsive */
+/* =========================
+   MOBILE STYLES
+========================= */
 @media (max-width: 768px) {
+
   .page-heading h1 {
     font-size: 2.2rem;
   }
@@ -131,28 +185,10 @@
     font-size: 1rem;
   }
 
-  .products-grid {
-    gap: 16px;
-  }
-}
-
-/* =========================
-   MOBILE ENHANCEMENTS
-========================= */
-@media (max-width: 768px) {
-  .page-heading h1 {
-    font-size: 2rem;
-  }
-
-  .page-heading p {
-    font-size: 1rem;
-  }
-
-  /* Make category chips easier to scroll */
   .category-chips {
     gap: 8px;
     padding: 10px 0;
-    justify-content: flex-start; /* align left for natural scroll */
+    justify-content: flex-start;
   }
 
   .chip,
@@ -161,26 +197,30 @@
     font-size: 0.85rem;
   }
 
-  /* Products grid adjustments */
   .products-grid {
-    gap: 16px;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 
-  .product-card-wrapper:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  .product-card img {
+    height: 200px;
   }
 
-  /* Pagination adjustments */
-  .pagination {
-    gap: 6px;
-    margin-top: 24px;
+  .product-card-content {
+    gap: 4px;
   }
 
-  .pagination button {
-    padding: 6px 12px;
+  .product-card-content h2 {
+    font-size: 1rem;
+  }
+
+  .product-card-content p {
     font-size: 0.85rem;
+    height: 36px;
+  }
+
+  .product-card-content .price {
+    font-size: 0.95rem;
   }
 
   .category-chips::-webkit-scrollbar {

@@ -59,6 +59,7 @@
 .thumbnail-row {
   display: flex;
   gap: 12px;
+  overflow-x: auto;
 }
 
 .thumbnail-row img {
@@ -113,18 +114,18 @@
   overflow-y: auto;
   overflow-x: hidden;
   word-wrap: break-word;
-  white-space: normal;
+  white-space: pre-line; /* <-- Preserve line breaks */
   padding: 16px;
   margin-bottom: 30px;
   border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.4); /* semi-transparent white */
+  background-color: rgba(255, 255, 255, 0.4);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(200, 200, 200, 0.5); /* lighter border for transparency */
+  border: 1px solid rgba(200, 200, 200, 0.5);
   box-sizing: border-box;
   transition: all 0.3s ease;
 }
 
-/* Scrollbar remains the same */
+/* Scrollbar */
 .description::-webkit-scrollbar {
   width: 8px;
 }
@@ -210,9 +211,9 @@
     gap: 30px;
   }
 
-  /* Gallery adjustments */
+  /* Gallery adjustments - LARGER MOBILE IMAGES */
   .main-image-box img {
-    height: 250px;
+    height: 400px;
   }
 
   .thumbnail-row {
@@ -221,8 +222,8 @@
   }
 
   .thumbnail-row img {
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 65px; /* slightly larger thumbnails */
   }
 
   /* Details column */
@@ -235,13 +236,13 @@
   }
 
   .description {
-    height: 200px;
-    padding: 12px;
-    font-size: 0.9rem;
+    height: 220px;
+    padding: 14px;
+    font-size: 0.95rem;
   }
 
   .description:hover {
-    height: 220px;
+    height: 240px;
   }
 
   .specs h3 {
@@ -259,43 +260,5 @@
     justify-content: center;
     padding: 14px 0;
     font-size: 0.95rem;
-  }
-}
-
-/* Extra small screens */
-@media (max-width: 480px) {
-  .main-image-box img {
-    height: 180px;
-  }
-
-  .thumbnail-row img {
-    width: 50px;
-    height: 50px;
-  }
-
-  .details h1 {
-    font-size: 1.6rem;
-  }
-
-  .price {
-    font-size: 1rem;
-  }
-
-  .description {
-    font-size: 0.85rem;
-    height: 180px;
-  }
-
-  .specs h3 {
-    font-size: 0.9rem;
-  }
-
-  .specs li {
-    font-size: 0.8rem;
-  }
-
-  .whatsapp-btn {
-    font-size: 0.9rem;
-    padding: 12px 0;
   }
 }

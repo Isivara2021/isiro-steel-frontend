@@ -9,12 +9,11 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const News = () => {
   const [newsList, setNewsList] = useState([]);
-  const [loading, setLoading] = useState(true); // ✅ Loading state
+  const [loading, setLoading] = useState(true);
   const [activeNews, setActiveNews] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
-    // Scroll to top when page loads
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     const fetchNews = async () => {
@@ -24,7 +23,7 @@ const News = () => {
       } catch (err) {
         console.error("Failed to fetch news:", err);
       } finally {
-        setLoading(false); // ✅ Stop loading when fetch completes
+        setLoading(false);
       }
     };
     fetchNews();
@@ -69,7 +68,6 @@ const News = () => {
       <div className="news-page">
         <h1 className="news-title">Latest News</h1>
 
-        {/* ✅ Show loader if still fetching */}
         {loading ? (
           <Loader text="Loading news..." />
         ) : (
@@ -93,7 +91,10 @@ const News = () => {
 
                 <div className="news-content">
                   <h2>{news.topic}</h2>
-                  <p>{news.content.slice(0, 120)}...</p>
+                  {/* ✅ Preserve line breaks in preview */}
+                  <p className="preview-text preserve-lines">
+                    {news.content.slice(0, 120)}...
+                  </p>
                   <span className="news-date">
                     {new Date(news.date).toLocaleDateString()}
                   </span>
@@ -139,7 +140,8 @@ const News = () => {
               <span className="news-date">
                 {new Date(activeNews.date).toLocaleDateString()}
               </span>
-              <p>{activeNews.content}</p>
+              {/* ✅ Preserve line breaks in lightbox content */}
+              <p className="preserve-lines">{activeNews.content}</p>
 
               {activeNews.images.length > 1 && (
                 <div className="lightbox-thumbnails">

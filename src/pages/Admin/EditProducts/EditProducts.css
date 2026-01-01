@@ -17,7 +17,7 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-  opacity: 0.75; /* 🔹 adjust opacity here */
+  opacity: 0.75;
   z-index: -1;
 }
 
@@ -198,33 +198,37 @@
 }
 
 /* ===============================
-   IMAGE GRID
+   IMAGE GALLERY PREVIEW
 ================================ */
-.image-grid {
+.gallery-preview {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 12px;
 }
 
-.image-wrapper {
+.gallery-item {
   position: relative;
   width: 90px;
   height: 90px;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
   border: 1px solid #ddd;
   background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.image-wrapper img {
+.gallery-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Remove image button */
-.remove-btn {
+/* Remove button for gallery images */
+.gallery-item .delete-btn {
   position: absolute;
   top: 4px;
   right: 4px;
@@ -241,8 +245,20 @@
   justify-content: center;
 }
 
-.remove-btn:hover {
+.gallery-item .delete-btn:hover {
   background: rgb(220, 38, 38);
+}
+
+.gallery-item p {
+  position: absolute;
+  bottom: 2px;
+  font-size: 10px;
+  color: #555;
+  background: rgba(255, 255, 255, 0.7);
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 1px 0;
 }
 
 /* ===============================
@@ -287,15 +303,12 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 
-  .image-wrapper {
+  .gallery-item {
     width: 70px;
     height: 70px;
   }
 }
 
-/* ===============================
-   EDIT PRODUCT PAGE - MOBILE ENHANCEMENTS
-================================ */
 @media (max-width: 480px) {
   .edit-product-page-wrapper {
     padding: 20px 10px;
@@ -356,7 +369,7 @@
     padding: 10px 12px;
   }
 
-  .image-wrapper {
+  .gallery-item {
     width: 60px;
     height: 60px;
   }

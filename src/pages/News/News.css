@@ -45,6 +45,9 @@
   box-shadow: 0 26px 48px rgba(0, 0, 0, 0.16);
 }
 
+/* =========================
+   NEWS CARD IMAGES
+========================= */
 .news-images-preview {
   display: flex;
   width: 100%;
@@ -53,7 +56,8 @@
 }
 
 .news-images-preview img {
-  width: calc(100% / 3);
+  /* Desktop: show up to 5 images */
+  width: calc(100% / 5);
   object-fit: cover;
   border-right: 1px solid #f3f6f4;
   transition: transform 0.3s ease;
@@ -87,6 +91,8 @@
   color: #6b7280;
   line-height: 1.5;
   overflow: hidden;
+  /* ✅ Preserve line breaks */
+  white-space: pre-line;
 }
 
 .news-date {
@@ -194,6 +200,7 @@
   font-size: 1rem;
   color: #444;
   line-height: 1.7;
+  white-space: pre-line; /* ✅ preserve line breaks */
 }
 
 /* THUMBNAILS */
@@ -224,8 +231,9 @@
 @media (max-width: 768px) {
 
   .news-title {
-  font-size: 2rem;
-}
+    font-size: 2rem;
+  }
+
   .news-card {
     flex-direction: column;
     height: auto;
@@ -236,7 +244,7 @@
     flex-direction: row;
     height: 120px;
     overflow-x: auto; /* allow horizontal scroll if images overflow */
-    gap: 8px; /* spacing between images */
+    gap: 2px; /* spacing between images */
   }
 
   .news-images-preview img {
@@ -246,7 +254,7 @@
 
   .news-lightbox-content {
     padding: 20px;
-    max-height: 85vh; /* reduce height slightly for smaller screens */
+    max-height: 85vh;
   }
 
   .lightbox-text h1 {
@@ -278,4 +286,3 @@
     height: 35px;
   }
 }
-

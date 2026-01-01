@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import { getProductById } from "../../services/productService";
 import { FaWhatsapp } from "react-icons/fa";
+import Loader from "../../components/Loader/Loader"; 
 import "./Item.css";
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -11,9 +12,10 @@ const API_URL = process.env.REACT_APP_API_URL;
 const Item = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true); 
   const [selectedImage, setSelectedImage] = useState(0);
 
-  // ✅ Scroll to top whenever the product ID changes
+  // Scroll to top whenever the product ID changes
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [id]);
@@ -25,12 +27,14 @@ const Item = () => {
         setProduct(data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false); 
       }
     };
     fetchProduct();
   }, [id]);
 
-  if (!product) return <div className="loading">Loading...</div>;
+  if (loading) return <Loader text="Loading product..." />; 
 
   const getImageUrl = (img) => {
     if (!img) return "";
@@ -91,7 +95,9 @@ const Item = () => {
             {product.price && <p className="price">LKR {product.price}</p>}
 
             {product.description && (
-              <p className="description">{product.description}</p>
+              <p className="description preserve-lines">
+                {product.description}
+              </p>
             )}
 
             {product.specifications && (

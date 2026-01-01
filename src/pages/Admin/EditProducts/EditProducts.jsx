@@ -18,7 +18,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 const EditProducts = () => {
   const { admin } = useContext(AdminContext);
   const navigate = useNavigate();
-  const { id } = useParams(); // Get product ID from URL (optional)
+  const { id } = useParams();
 
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -34,7 +34,7 @@ const EditProducts = () => {
     "Other",
   ];
 
-  // Initial fetch
+  // Fetch products
   useEffect(() => {
     if (!admin?.token) {
       navigate("/admin/login");
@@ -42,10 +42,8 @@ const EditProducts = () => {
     }
 
     if (id) {
-      // If URL has a product ID, fetch that product
       fetchProductById(id);
     } else {
-      // Otherwise fetch all products
       fetchProducts();
     }
   }, [admin, navigate, id]);
@@ -57,8 +55,7 @@ const EditProducts = () => {
       });
       const data = await res.json();
       setProducts(data);
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("Failed to fetch products");
     }
   };
@@ -71,10 +68,9 @@ const EditProducts = () => {
       const data = await res.json();
       setEditingProduct(data);
       setNewImages([]);
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("Failed to fetch product");
-      navigate("/admin/edit-products"); // fallback to list
+      navigate("/admin/edit-products");
     }
   };
 
@@ -97,9 +93,7 @@ const EditProducts = () => {
         alert("Product deleted");
         if (editingProduct?._id === id) setEditingProduct(null);
         fetchProducts();
-      } else {
-        alert("Delete failed");
-      }
+      } else alert("Delete failed");
     } catch {
       alert("Server error");
     }
@@ -137,14 +131,12 @@ const EditProducts = () => {
           alert(`Each image must be under ${LIMITS.maxImageSizeMB}MB`);
           continue;
         }
-
         const compressed = await compressImage(file);
         compressedImages.push(compressed);
       }
 
       setNewImages([...newImages, ...compressedImages]);
-    } catch (err) {
-      console.error("Image compression failed:", err);
+    } catch {
       alert("Failed to process images");
     } finally {
       setLoading(false);
@@ -172,9 +164,7 @@ const EditProducts = () => {
           ...prev,
           images: prev.images.filter((_, i) => i !== imgIndex),
         }));
-      } else {
-        alert("Failed to remove image");
-      }
+      } else alert("Failed to remove image");
     } catch {
       alert("Server error");
     }
@@ -182,7 +172,6 @@ const EditProducts = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-
     try {
       setLoading(true);
       const formData = new FormData();
@@ -203,9 +192,7 @@ const EditProducts = () => {
         setNewImages([]);
         fetchProducts();
         navigate("/admin/edit-products");
-      } else {
-        alert("Update failed");
-      }
+      } else alert("Update failed");
     } catch {
       alert("Server error");
     } finally {
@@ -295,17 +282,22 @@ const EditProducts = () => {
               ))}
             </select>
 
-            <div className="image-grid">
+            {/* =========================
+                IMAGE GALLERY PREVIEW
+            ========================= */}
+            <div className="gallery-preview">
               {editingProduct.images.map((img, i) => (
-                <div key={i} className="image-wrapper">
+                <div key={i} className="gallery-item">
                   <img src={img} alt="" />
-                  <button type="button" onClick={() => removeExistingImage(i)}>✕</button>
+                  <button type="button" className="delete-btn" onClick={() => removeExistingImage(i)}>✕</button>
+                  <p>Existing</p>
                 </div>
               ))}
               {newImages.map((img, i) => (
-                <div key={i} className="image-wrapper">
+                <div key={i} className="gallery-item">
                   <img src={URL.createObjectURL(img)} alt="" />
-                  <button type="button" onClick={() => removeNewImage(i)}>✕</button>
+                  <button type="button" className="delete-btn" onClick={() => removeNewImage(i)}>✕</button>
+                  <p>New</p>
                 </div>
               ))}
             </div>

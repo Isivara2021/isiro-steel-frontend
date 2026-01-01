@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
-import Loader from "../../components/Loader/Loader"; // ✅ Import Loader
+import Loader from "../../components/Loader/Loader";
 import { getProducts } from "../../services/productService";
 import "./Products.css";
 
+// Define your collections/categories
 const categories = [
-  "All",
   "Furniture",
   "Decorative Items",
   "Outdoor Pieces",
@@ -19,120 +19,69 @@ const categories = [
 
 const Products = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const initialCategory = params.get("category") || "All";
-
   const [products, setProducts] = useState([]);
-  const [activeCategory, setActiveCategory] = useState(initialCategory);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true); // ✅ Loading state
-  const productsPerPage = 8;
+  const [loading, setLoading] = useState(true);
 
-  // Fetch all products
+  // Fetch all products on mount
   useEffect(() => {
-    async function fetchProducts() {
+    const fetchProducts = async () => {
       try {
         const data = await getProducts();
         setProducts(data);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching products:", err);
       } finally {
-        setLoading(false); // ✅ Stop loading when fetch completes
+        setLoading(false);
       }
-    }
+    };
     fetchProducts();
   }, []);
 
-  // Update activeCategory when URL changes
-  useEffect(() => {
-    setActiveCategory(initialCategory);
-    setCurrentPage(1);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [initialCategory]);
-
-  const filteredProducts = products.filter(
-    (p) => activeCategory === "All" || p.category === activeCategory
-  );
-
-  const indexOfLast = currentPage * productsPerPage;
-  const indexOfFirst = indexOfLast - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  // Filter products by category
+  const getProductsByCategory = (category) => {
+    return products.filter((p) => p.category === category);
+  };
 
   return (
     <>
       <Navbar />
 
       <div className="products-page">
+        {/* Page Heading */}
         <div className="page-heading">
           <h1>Our Products</h1>
           <p>Handcrafted Steel and Wood for the Modern Home</p>
         </div>
 
-        <div className="category-chips">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              className={activeCategory === cat ? "active-chip" : "chip"}
-              onClick={() => {
-                setActiveCategory(cat);
-                setCurrentPage(1);
-                window.scrollTo({ top: 0, behavior: "smooth" });
-                navigate(`/products${cat !== "All" ? `?category=${cat}` : ""}`);
-              }}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* ✅ Loader */}
         {loading ? (
           <Loader text="Loading products..." />
         ) : (
-          <div className="products-grid">
-            {currentProducts.length === 0 && (
-              <p>No products available in this category.</p>
-            )}
-            {currentProducts.map((product) => (
-              <div
-                key={product._id}
-                className="product-card-wrapper"
-                onClick={() => navigate(`/product/${product._id}`)}
-              >
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
-        )}
+          <>
+            {categories.map((category) => {
+              const categoryProducts = getProductsByCategory(category);
 
-        {!loading && totalPages > 1 && (
-          <div className="pagination">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            >
-              &lt;
-            </button>
+              // Skip empty categories
+              if (categoryProducts.length === 0) return null;
 
-            {Array.from({ length: totalPages }, (_, i) => (
-              <button
-                key={i}
-                className={currentPage === i + 1 ? "active-page" : ""}
-                onClick={() => setCurrentPage(i + 1)}
-              >
-                {i + 1}
-              </button>
-            ))}
+              return (
+                <div key={category} className="collection-section">
+                  <h2 className="collection-title">{category}</h2>
 
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-            >
-              &gt;
-            </button>
-          </div>
+                  <div className="products-grid">
+                    {categoryProducts.map((product) => (
+                      <div
+                        key={product._id}
+                        className="product-card-wrapper"
+                        onClick={() => navigate(`/product/${product._id}`)}
+                      >
+                        <ProductCard product={product} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </>
         )}
       </div>
 
