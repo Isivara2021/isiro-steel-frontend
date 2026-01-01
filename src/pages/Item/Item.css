@@ -175,7 +175,7 @@
   align-self: center;        
   padding: 16px 26px;
   border-radius: 14px;
-  background: #25d366;
+  background: #0fb043;
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
@@ -190,6 +190,7 @@
 
 .whatsapp-btn:hover {
   transform: translateY(-2px);
+  background: #287542;
   box-shadow: 0 12px 25px rgba(37, 211, 102, 0.35);
 }
 
