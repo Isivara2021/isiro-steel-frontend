@@ -130,7 +130,7 @@
   .productPrice {
     font-size: 0.9rem;
     font-weight: 600;
-    color: #1f2937;
+    color: #2d681b;
     margin-top: 1px;
   }
 
@@ -141,28 +141,3 @@
   }
 }
 
-/* =========================
-   SMALL SCREEN ENHANCEMENTS
-========================= */
-@media (max-width: 480px) {
-  .imageWrapper {
-    height: 200px; /* slightly smaller for small screens */
-  }
-
-  .productInfo {
-    padding: 8px 12px;
-    gap: 2px;
-  }
-
-  .productName {
-    font-size: 0.95rem;
-  }
-
-  .productDescription {
-    font-size: 0.8rem;
-  }
-
-  .productPrice {
-    font-size: 0.85rem;
-  }
-}
