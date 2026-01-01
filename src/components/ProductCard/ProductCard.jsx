@@ -2,9 +2,11 @@ import React from "react";
 import styles from "./ProductCard.module.css";
 
 const ProductCard = ({ product }) => {
+  // Use previewIndex if available, otherwise fallback to 0
+  const previewIndex = product.previewIndex || 0;
   const imageUrl =
     product.images && product.images.length
-      ? product.images[0] // ✅ Cloudinary URL
+      ? product.images[previewIndex] // assuming this is the URL from backend
       : "/placeholder.png";
 
   return (
