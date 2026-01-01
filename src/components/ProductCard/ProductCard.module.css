@@ -1,32 +1,35 @@
+/* =========================
+   PRODUCT CARD - DESKTOP
+========================= */
 .productCard {
   display: flex;
   flex-direction: column;
-  background: rgba(239, 244, 247, 0.775); /* light soft background */
+  background: rgba(239, 244, 247, 0.775); /* soft background */
   backdrop-filter: blur(10px);
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.5s ease, box-shadow 0.5s ease;
   width: 100%;
-  height: 380px; /* increased height for larger image */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12),
-              0 0 15px rgba(255, 255, 255, 0.05) inset;
+  height: 380px; /* taller for larger image */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12),
+              0 0 15px rgba(255,255,255,0.05) inset;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255,255,255,0.3);
 }
 
 .productCard:hover {
   transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2),
-              0 0 25px rgba(255, 255, 255, 0.1) inset;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2),
+              0 0 25px rgba(255,255,255,0.1) inset;
 }
 
 .imageWrapper {
   width: 100%;
-  height: 220px; /* taller image */
+  height: 240px; /* more space for images */
   overflow: hidden;
   position: relative;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
 .productImage {
@@ -45,119 +48,121 @@
 .imageOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
+  background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
   pointer-events: none;
 }
 
 .productInfo {
-  padding: 16px;
+  padding: 12px 16px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px; /* reduced gap for tighter layout */
   flex: 1;
 }
 
 .productName {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #1f2937;
-  line-height: 1.3;
+  line-height: 1.25;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .productDescription {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: #6b7280;
+  line-height: 1.25;
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .productPrice {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #2d681b;
+  margin-top: 2px;
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .productCard {
-    height: 350px;
-  }
-  .imageWrapper {
-    height: 180px;
-  }
-}
-
 
 /* =========================
-   Modern Mobile Product Cards
+   RESPONSIVE / MOBILE
 ========================= */
 @media (max-width: 768px) {
   .productCard {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border-radius: 14px;
-    background: transparent;
-    overflow: hidden;
-    margin-bottom: 14px;
-
-    /* Subtle elevation */
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: auto; /* let content define height */
+    border-radius: 18px;
+    background: rgba(239, 244, 247, 0.85);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  /* Image container */
   .imageWrapper {
-    width: 100%;
-    height: 190px;
-    overflow: hidden;
-    border-radius: 14px 14px 0 0;
+    height: 220px; /* bigger images for mobile */
+    border-radius: 18px 18px 0 0;
   }
 
   .productImage {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
   }
 
-  /* Content */
   .productInfo {
-    padding: 12px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    padding: 10px 14px;
+    gap: 3px; /* reduce gap for compact layout */
   }
 
   .productName {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 600;
-    line-height: 1.3;
+    line-height: 1.2;
     color: #111827;
   }
 
   .productDescription {
     font-size: 0.82rem;
-    line-height: 1.35;
-    color: #6b7280;
+    line-height: 1.2;
+    color: #4b5563;
   }
 
   .productPrice {
-    margin-top: 4px;
     font-size: 0.9rem;
     font-weight: 600;
-    color: #111827;
+    color: #1f2937;
+    margin-top: 1px;
   }
 
-  /* Touch feedback (mobile-friendly) */
+  /* Touch feedback */
   .productCard:active {
     transform: scale(0.985);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
   }
 }
 
+/* =========================
+   SMALL SCREEN ENHANCEMENTS
+========================= */
+@media (max-width: 480px) {
+  .imageWrapper {
+    height: 200px; /* slightly smaller for small screens */
+  }
+
+  .productInfo {
+    padding: 8px 12px;
+    gap: 2px;
+  }
+
+  .productName {
+    font-size: 0.95rem;
+  }
+
+  .productDescription {
+    font-size: 0.8rem;
+  }
+
+  .productPrice {
+    font-size: 0.85rem;
+  }
+}
