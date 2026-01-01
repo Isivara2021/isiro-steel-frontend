@@ -12,6 +12,14 @@ const News = () => {
   const [loading, setLoading] = useState(true);
   const [activeNews, setActiveNews] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Handle window resize for responsive image previews
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -79,19 +87,25 @@ const News = () => {
                 onClick={() => openLightbox(news)}
               >
                 <div className="news-images-preview">
-                  {news.images?.slice(0, 3).map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={getImageUrl(img)}
-                      alt={news.topic}
-                      loading="lazy"
-                    />
-                  ))}
+                  {news.images?.map((img, idx) => {
+                    // Show only first 3 images on mobile
+                    if (isMobile && idx >= 3) return null;
+                    // Show only first 5 images on desktop
+                    if (!isMobile && idx >= 5) return null;
+
+                    return (
+                      <img
+                        key={idx}
+                        src={getImageUrl(img)}
+                        alt={news.topic}
+                        loading="lazy"
+                      />
+                    );
+                  })}
                 </div>
 
                 <div className="news-content">
                   <h2>{news.topic}</h2>
-                  {/* ✅ Preserve line breaks in preview */}
                   <p className="preview-text preserve-lines">
                     {news.content.slice(0, 120)}...
                   </p>
@@ -140,7 +154,6 @@ const News = () => {
               <span className="news-date">
                 {new Date(activeNews.date).toLocaleDateString()}
               </span>
-              {/* ✅ Preserve line breaks in lightbox content */}
               <p className="preserve-lines">{activeNews.content}</p>
 
               {activeNews.images.length > 1 && (

@@ -46,7 +46,7 @@
 }
 
 /* =========================
-   NEWS CARD IMAGES - FIXED COUNT
+   NEWS CARD IMAGES
 ========================= */
 .news-images-preview {
   display: flex;
@@ -58,17 +58,13 @@
   object-fit: cover;
   border-radius: 6px;
   transition: transform 0.3s ease;
-  flex-shrink: 0; /* prevent shrinking below width */
+  flex-shrink: 0;
 }
 
 /* Desktop: show up to 5 images evenly */
 @media (min-width: 769px) {
-  .news-images-preview {
-    justify-content: flex-start;
-  }
-
   .news-images-preview img {
-    width: calc((100% - 16px)/5); /* 5 images, 4 gaps of 4px = 16px */
+    width: calc((100% - 16px)/5); /* 5 images, 4 gaps of 4px */
     height: 100%;
   }
 }
@@ -77,11 +73,10 @@
 @media (max-width: 768px) {
   .news-images-preview {
     height: 120px;
-    justify-content: flex-start;
   }
 
   .news-images-preview img {
-    width: calc((100% - 8px)/3); /* 3 images, 2 gaps of 4px = 8px */
+    width: calc((100% - 8px)/3); /* 3 images, 2 gaps of 4px */
     height: 100%;
   }
 }
