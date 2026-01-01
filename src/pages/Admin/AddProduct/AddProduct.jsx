@@ -5,9 +5,6 @@ import { FaBoxOpen } from "react-icons/fa";
 import { compressImage } from "../../../utils/imageCompression";
 import "./AddProduct.css";
 
-/* =======================
-   INPUT SAFETY LIMITS
-======================= */
 const LIMITS = {
   name: 30,
   shortDescription: 100,
@@ -31,7 +28,8 @@ const AddProduct = () => {
     description: "",
     price: "",
     category: "Furniture",
-    images: [],
+    images: [], // stores File objects
+    previewIndex: 0, // index of the image to be used as card preview
   });
 
   const [errors, setErrors] = useState([]);
@@ -46,27 +44,19 @@ const AddProduct = () => {
     "Other",
   ];
 
-  /* =======================
-     HANDLE FIELD CHANGE
-  ======================= */
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name === "price") {
       const num = parseFloat(value);
       if (isNaN(num) || num < 0 || num > LIMITS.maxPrice) return;
     }
-
     setProduct({ ...product, [name]: value });
   };
 
-  /* =======================
-     HANDLE FILE UPLOAD
-  ======================= */
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
 
-    if (files.length > LIMITS.maxImages) {
+    if (files.length + product.images.length > LIMITS.maxImages) {
       alert(`Maximum ${LIMITS.maxImages} images allowed.`);
       e.target.value = null;
       return;
@@ -81,7 +71,6 @@ const AddProduct = () => {
           e.target.value = null;
           return;
         }
-
         if (file.size > LIMITS.maxImageSizeMB * 1024 * 1024) {
           alert(`Each image must be under ${LIMITS.maxImageSizeMB}MB.`);
           e.target.value = null;
@@ -92,16 +81,30 @@ const AddProduct = () => {
         compressedImages.push(compressed);
       }
 
-      setProduct({ ...product, images: compressedImages });
+      setProduct({
+        ...product,
+        images: [...product.images, ...compressedImages],
+      });
     } catch (err) {
       console.error(err);
       alert("Image compression failed");
     }
   };
 
-  /* =======================
-     HANDLE FORM SUBMIT
-  ======================= */
+  const removeImage = (index) => {
+    setProduct((prev) => {
+      const newImages = prev.images.filter((_, i) => i !== index);
+      let newPreview = prev.previewIndex;
+      if (index === prev.previewIndex) newPreview = 0;
+      else if (index < prev.previewIndex) newPreview -= 1;
+      return { ...prev, images: newImages, previewIndex: newPreview };
+    });
+  };
+
+  const setPreview = (index) => {
+    setProduct((prev) => ({ ...prev, previewIndex: index }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -112,31 +115,21 @@ const AddProduct = () => {
 
     const formData = new FormData();
     Object.keys(product).forEach((key) => {
-      if (key !== "images") {
+      if (key !== "images" && key !== "previewIndex") {
         formData.append(key, product[key]);
       }
     });
-
-    product.images.forEach((img) => {
-      formData.append("images", img);
-    });
+    product.images.forEach((img) => formData.append("images", img));
+    formData.append("previewIndex", product.previewIndex);
 
     try {
       setLoading(true);
-
-      const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/products`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${admin.token}`,
-          },
-          body: formData,
-        }
-      );
-
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${admin.token}` },
+        body: formData,
+      });
       const data = await res.json();
-
       if (res.ok) {
         alert("Product added successfully!");
         navigate("/admin/dashboard");
@@ -153,14 +146,8 @@ const AddProduct = () => {
     }
   };
 
-  /* =======================
-     CHARACTER COUNTER
-  ======================= */
   const Counter = ({ value, limit }) => (
-    <span
-      className="char-counter"
-      style={{ color: value.length >= limit ? "#d11a2a" : "#666" }}
-    >
+    <span style={{ color: value.length >= limit ? "#d11a2a" : "#666" }}>
       {value.length}/{limit}
     </span>
   );
@@ -184,9 +171,7 @@ const AddProduct = () => {
           {errors.length > 0 && (
             <div className="backend-errors">
               {errors.map((err, idx) => (
-                <p key={idx} style={{ color: "#d11a2a", fontSize: "0.9rem" }}>
-                  {err}
-                </p>
+                <p key={idx} style={{ color: "#d11a2a", fontSize: "0.9rem" }}>{err}</p>
               ))}
             </div>
           )}
@@ -213,10 +198,7 @@ const AddProduct = () => {
               onChange={handleChange}
               maxLength={LIMITS.shortDescription}
             />
-            <Counter
-              value={product.shortDescription}
-              limit={LIMITS.shortDescription}
-            />
+            <Counter value={product.shortDescription} limit={LIMITS.shortDescription} />
           </div>
 
           <div className="input-with-counter">
@@ -242,26 +224,31 @@ const AddProduct = () => {
               step="0.01"
               required
             />
-
-            <select
-              name="category"
-              value={product.category}
-              onChange={handleChange}
-            >
-              {categories.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
+            <select name="category" value={product.category} onChange={handleChange}>
+              {categories.map((c) => <option key={c} value={c}>{c}</option>)}
             </select>
           </div>
 
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={handleFileChange}
-          />
+          <input type="file" multiple accept="image/*" onChange={handleFileChange} />
+
+          {product.images.length > 0 && (
+            <div className="image-previews">
+              {product.images.map((img, idx) => (
+                <div
+                  key={idx}
+                  className={`image-wrapper ${idx === product.previewIndex ? "preview-selected" : ""}`}
+                >
+                  <img src={URL.createObjectURL(img)} alt={`Preview ${idx}`} />
+                  <button type="button" className="remove-btn" onClick={() => removeImage(idx)}>×</button>
+                  {idx !== product.previewIndex && (
+                    <button type="button" className="set-preview-btn" onClick={() => setPreview(idx)}>
+                      Set as Preview
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
 
           <button type="submit" disabled={loading}>
             {loading ? "Uploading..." : "Add Product"}

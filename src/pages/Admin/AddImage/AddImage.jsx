@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AdminContext } from "../../../context/AdminContext";
 import { compressImage } from "../../../utils/imageCompression";
@@ -12,8 +12,6 @@ const AddImage = () => {
   const [image, setImage] = useState(null);
   const [category, setCategory] = useState("Furniture");
   const [loading, setLoading] = useState(false);
-  const [galleryImages, setGalleryImages] = useState([]);
-  const [fetching, setFetching] = useState(true);
 
   const categories = [
     "Furniture",
@@ -23,28 +21,6 @@ const AddImage = () => {
     "Hand Railings",
     "Other",
   ];
-
-  const API_URL = process.env.REACT_APP_API_URL;
-
-  /* =======================
-     FETCH EXISTING IMAGES
-  ======================= */
-  const fetchGallery = async () => {
-    try {
-      setFetching(true);
-      const res = await fetch(`${API_URL}/api/gallery`);
-      const data = await res.json();
-      setGalleryImages(data);
-    } catch (err) {
-      console.error("Fetch gallery error:", err);
-    } finally {
-      setFetching(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchGallery();
-  }, []);
 
   /* =======================
      IMAGE SELECT + COMPRESS
@@ -73,7 +49,7 @@ const AddImage = () => {
   };
 
   /* =======================
-     SUBMIT NEW IMAGE
+     SUBMIT
   ======================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,49 +73,30 @@ const AddImage = () => {
     try {
       setLoading(true);
 
-      const res = await fetch(`${API_URL}/api/gallery`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${admin.token}`,
-        },
-        body: formData,
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/gallery`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${admin.token}`,
+          },
+          body: formData,
+        }
+      );
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to add image");
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to add image");
+      }
 
       alert("Image added successfully!");
-      setTitle("");
-      setImage(null);
-      fetchGallery(); // Refresh gallery
+      navigate("/admin/manage-gallery");
     } catch (err) {
       console.error("Upload error:", err);
       alert(err.message || "Server error. Please try again later.");
     } finally {
       setLoading(false);
-    }
-  };
-
-  /* =======================
-     DELETE IMAGE
-  ======================= */
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this image?")) return;
-
-    try {
-      const res = await fetch(`${API_URL}/api/gallery/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${admin.token}` },
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to delete image");
-
-      alert("Image deleted successfully!");
-      setGalleryImages((prev) => prev.filter((img) => img._id !== id));
-    } catch (err) {
-      console.error("Delete error:", err);
-      alert(err.message || "Server error. Please try again later.");
     }
   };
 
@@ -176,34 +133,6 @@ const AddImage = () => {
           {loading ? "Uploading..." : "Add Image"}
         </button>
       </form>
-
-      {/* =======================
-         EXISTING IMAGES GALLERY
-      ======================= */}
-      <h3 style={{ marginTop: "40px", marginBottom: "16px" }}>Existing Images</h3>
-      {fetching ? (
-        <p>Loading gallery...</p>
-      ) : galleryImages.length === 0 ? (
-        <p>No images added yet.</p>
-      ) : (
-        <div className="gallery-preview">
-          {galleryImages.map((img) => (
-            <div key={img._id} className="gallery-item">
-              <img
-                src={img.image.startsWith("http") ? img.image : `${API_URL}${img.image}`}
-                alt={img.title}
-                loading="lazy"
-              />
-              <div className="gallery-item-info">
-                <p>{img.title}</p>
-                <button className="delete-btn" onClick={() => handleDelete(img._id)}>
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };

@@ -235,14 +235,18 @@
     font-size: 1.2rem;
   }
 
+  /* Description without scroll bar */
   .description {
-    height: 220px;
+    height: auto; /* allow full content height */
+    max-height: none;
+    overflow: visible; /* remove scroll */
     padding: 14px;
     font-size: 0.95rem;
   }
 
   .description:hover {
-    height: 240px;
+    height: auto; /* maintain same height on hover */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   }
 
   .specs h3 {
