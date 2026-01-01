@@ -93,6 +93,7 @@
   .productCard {
     height: auto; /* let content define height */
     border-radius: 18px;
+    margin: 0 20px;
     background: rgba(239, 244, 247, 0.85);
     box-shadow: 0 6px 18px rgba(0,0,0,0.12);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
