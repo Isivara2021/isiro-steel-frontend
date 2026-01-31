@@ -51,11 +51,12 @@
   border: 1.5px solid #ccc;
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
   aspect-ratio: 1 / 1; /* square box, scales */
-  width: 85%;
+  width: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: transform 0.3s ease;
+  margin: 0 auto;
 }
 
 .main-image-box img {
@@ -230,6 +231,7 @@
   /* Gallery adjustments - LARGER MOBILE IMAGES */
   .main-image-box img {
     height: 400px;
+    width: 90%;
   }
 
   .thumbnail-row {
