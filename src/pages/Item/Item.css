@@ -56,7 +56,6 @@
   justify-content: center;
   align-items: center;
   transition: transform 0.3s ease;
-  margin: 0 auto;
 }
 
 .main-image-box img {
@@ -228,10 +227,13 @@
     gap: 30px;
   }
 
+  .main-image-box {
+  margin: 0 auto;
+}
+
   /* Gallery adjustments - LARGER MOBILE IMAGES */
   .main-image-box img {
     height: 400px;
-    width: 90%;
   }
 
   .thumbnail-row {
