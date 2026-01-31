@@ -37,8 +37,11 @@ body::before {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 80px 60px;
-  gap: 40px;
+  align-items: center;       /* vertically center content */
+  padding: 0 60px;           /* remove top/bottom padding */
+  gap: 50px;
+  min-height: 90vh;         /* full viewport height */
+  box-sizing: border-box;    /* ensure padding doesn't exceed height */
 }
 
 .hero-left {
@@ -50,17 +53,17 @@ body::before {
   background: #6b8e23;
   color: white;
   font-weight: bold;
-  padding: 4px 12px;
+  padding: 6px 14px; /* slightly bigger */
   border-radius: 999px;
   text-transform: uppercase;
-  font-size: 0.8rem;
-  margin-bottom: 12px;
+  font-size: 0.9rem; /* larger */
+  margin-bottom: 16px;
 }
 
 .hero-left h1 {
-  font-size: 3rem;
-  line-height: 1.2;
-  margin-bottom: 20px;
+  font-size: 3.6rem; /* bigger */
+  line-height: 1.15;
+  margin-bottom: 24px;
 }
 
 .highlight-primary {
@@ -74,23 +77,24 @@ body::before {
 }
 
 .hero-left p {
-  font-size: 1.1rem;
-  margin-bottom: 20px;
+  font-size: 1.25rem; /* larger paragraph */
+  margin-bottom: 32px;
   color: #555;
 }
 
 .hero-buttons {
   display: flex;
-  gap: 16px;
+  gap: 20px; /* slightly bigger gap */
   margin-bottom: 40px;
 }
 
 .btn-primary {
   background-color: #556b2f;
   color: white;
-  padding: 14px 28px;
+  padding: 16px 32px; /* slightly bigger */
   border-radius: 50px;
   font-weight: bold;
+  font-size: 1.05rem; /* larger font */
   border: none;
   cursor: pointer;
   transition: background 0.3s ease;
@@ -104,9 +108,10 @@ body::before {
   background-color: white;
   border: 2px solid #ccc;
   color: #333;
-  padding: 14px 28px;
+  padding: 16px 32px; /* slightly bigger */
   border-radius: 50px;
   font-weight: bold;
+  font-size: 1.05rem; /* larger font */
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -116,18 +121,65 @@ body::before {
   color: #556b2f;
 }
 
-.hero-stats {
+/* Wrapper for stats and labels */
+.hero-stats-wrapper {
   display: flex;
-  gap: 40px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px; /* space between icons and text row */
 }
 
-.hero-stats h3 {
-  font-size: 2rem;
+/* Container: 3 columns */
+.hero-stats-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 50px;                             /* space between columns */
+  text-align: center;                     /* center text horizontally */
+  margin-top: 40px;
+}
+
+/* Wrapper */
+.hero-stats-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center the whole block */
+  gap: 16px; /* space between numbers and labels */
+}
+
+/* Row of numbers/icons */
+.hero-stats-numbers {
+  display: flex;
+  justify-content: space-between; /* spread evenly */
+  width: 100%;
+  max-width: 600px; /* optional, controls width */
+}
+
+.hero-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  grid-template-rows: auto auto;        /* top row: icons, bottom row: text */
+  gap: 12px;                            /* space between rows */
+  width: 100%;
+  max-width: 600px;                      /* optional */
+  margin: 40px auto 0 auto;             /* center horizontally */
+  text-align: center;
+}
+
+/* Icons / numbers */
+.hero-stats-grid .stat h3 {
+  margin: 0;
+  font-size: 2.4rem;
   color: #6b8e23;
 }
 
-.hero-stats p {
-  font-size: 0.9rem;
+/* Delivery icon scalable independently */
+.delivery-icon {
+  font-size: 3.5rem; /* can scale freely */
+}
+
+/* Text labels */
+.hero-stats-grid .stat-label {
+  font-size: 1rem;
   color: #666;
 }
 
@@ -145,7 +197,7 @@ body::before {
 .hero-image-frame {
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 550px; /* slightly larger */
   aspect-ratio: 1 / 1;
   border: 2px solid #6b8e23;
   background: rgba(143, 188, 143, 0.18);
@@ -185,8 +237,8 @@ body::before {
 }
 
 .hero-dot {
-  width: 10px;
-  height: 10px;
+  width: 12px; /* slightly bigger dots */
+  height: 12px;
   background: rgba(255, 255, 255, 0.45);
   border-radius: 50%;
   cursor: pointer;
@@ -198,10 +250,11 @@ body::before {
 }
 
 .hero-dot.active {
-  width: 22px;
+  width: 24px; /* bigger active dot */
   border-radius: 12px;
   background: #6b8e23;
 }
+
 
 /* ===========================
    COLLECTIONS SECTION

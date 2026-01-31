@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import "./Home.css";
+import { FaShippingFast } from "react-icons/fa";
 
 import hero1 from "../../assets/hero1.webp";
 import hero2 from "../../assets/hero2.webp";
@@ -114,15 +115,24 @@ const Home = () => {
               </button>
             </div>
 
-            <div className="hero-stats">
-              <div>
+            <div className="hero-stats-grid">
+              {/* Top row: icons / numbers */}
+              <div className="stat">
                 <h3>200+</h3>
-                <p>Unique Designs</p>
               </div>
-              <div>
+              <div className="stat">
                 <h3>100%</h3>
-                <p>Fully Customizable</p>
               </div>
+              <div className="stat">
+                <h3>
+                  <FaShippingFast className="delivery-icon" />
+                </h3>
+              </div>
+
+              {/* Bottom row: text labels */}
+              <div className="stat-label">Unique Designs</div>
+              <div className="stat-label">Fully Customizable</div>
+              <div className="stat-label">Transport Available</div>
             </div>
           </div>
 
@@ -168,9 +178,7 @@ const Home = () => {
               <div
                 key={idx}
                 className="collection-card"
-                onClick={() =>
-                  navigate(`/products?category=${col.category}`)
-                }
+                onClick={() => navigate(`/products?category=${col.category}`)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
