@@ -442,21 +442,21 @@ body::before {
 }
 
 .hero-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 12px;
-}
+    flex-direction: column; /* stack vertically */
+    align-items: center;    /* center each stat */
+    gap: 16px;              /* space between stats */
+    margin-bottom: 12px;
+  }
 
-.hero-stats h3 {
-  font-size: 1.4rem;
-  color: #6b8e23;
-}
+  .hero-stats h3 {
+    font-size: 1.4rem;
+    margin-bottom: 4px; /* space between number/icon and text */
+  }
 
-.hero-stats p {
-  font-size: 0.8rem;
-  color: #555;
-}
+  .hero-stats p {
+    font-size: 0.9rem;
+    text-align: center;
+  }
 
 /* Hero dots (slider indicators) */
 .hero-dots {
