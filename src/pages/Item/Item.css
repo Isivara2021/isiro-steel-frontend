@@ -51,7 +51,7 @@
   border: 1.5px solid #ccc;
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
   aspect-ratio: 1 / 1; /* square box, scales */
-  width: 100%;
+  width: 85%;
   display: flex;
   justify-content: center;
   align-items: center;
