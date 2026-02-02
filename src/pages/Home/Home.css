@@ -449,7 +449,7 @@ body::before {
   }
 
   .hero-stats h3 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin-bottom: 4px; /* space between number/icon and text */
   }
 
@@ -544,6 +544,12 @@ body::before {
 
   .hero-buttons {
     gap: 6px;
+  }
+
+  .hero-stats {
+    flex-direction: column; /* stack vertically */
+    align-items: center;    /* center each stat */
+    gap: 16px;              /* smaller gap between stats */
   }
 
   .btn-primary,
