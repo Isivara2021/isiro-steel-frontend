@@ -546,12 +546,34 @@ body::before {
     gap: 6px;
   }
 
-  .hero-stats {
-    flex-direction: column; /* stack vertically */
-    align-items: center;    /* center each stat */
-    gap: 16px;              /* smaller gap between stats */
+   .hero-stats-grid {
+    grid-template-columns: 1fr; /* 1 column */
+    grid-template-rows: repeat(3, auto); /* 3 rows */
+    gap: 8px; /* vertical spacing */
   }
 
+  /* Reorder numbers/icons and labels to stack correctly */
+  .hero-stats-grid .stat:nth-child(1),
+  .hero-stats-grid .stat-label:nth-child(4) {
+    order: 1;
+  }
+
+  .hero-stats-grid .stat:nth-child(2),
+  .hero-stats-grid .stat-label:nth-child(5) {
+    order: 2;
+  }
+
+  .hero-stats-grid .stat:nth-child(3),
+  .hero-stats-grid .stat-label:nth-child(6) {
+    order: 3;
+  }
+
+  /* Center content */
+  .hero-stats-grid .stat,
+  .hero-stats-grid .stat-label {
+    text-align: center;
+    justify-self: center;
+  }
   .btn-primary,
   .btn-secondary {
     font-size: 0.9rem;
