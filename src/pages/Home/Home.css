@@ -549,7 +549,7 @@ body::before {
    .hero-stats-grid {
     grid-template-columns: 1fr; /* 1 column */
     grid-template-rows: repeat(3, auto); /* 3 rows */
-    gap: 8px; /* vertical spacing */
+    gap: 15px; /* vertical spacing */
   }
 
   /* Reorder numbers/icons and labels to stack correctly */
